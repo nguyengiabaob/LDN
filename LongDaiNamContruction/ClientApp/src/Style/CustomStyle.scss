@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    
+}
+body,html {
+    max-width: 100%;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow-x:hidden
+}
+.menu-font {
+    color: rgba(0, 0, 0, 0.85) !important;
+    font-size: 1.05rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    font-weight: bolder;
+    letter-spacing: 0.001em;
+    width: 150px;
+    text-align: center;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+.border-menu
+{
+    border-bottom: 1px solid #f0f0f0 !important;
+}
+.custom-menu 
+{   
+    & {
+    left: 2%;
+    width:100%; 
+    position:relative ;
+    display: flex; 
+    align-items:center
+    }
+
+    .ant-menu-item:hover::after
+    {
+        border-bottom: 2px solid #deb975 !important;
+        
+    }
+
+    .ant-menu-item-active::after
+    {
+    border-bottom: 2px solid #deb975 !important;
+    }
+
+    .ant-menu-item-selected::after
+    {
+        border-bottom: 2px solid #deb975 !important;
+    }
+
+ 
+}
+@media screen and (max-width: 1546px){
+    .custom-menu {
+        flex-wrap: wrap;
+    }
+}
+.custom-nav {
+    display: flex;
+    flex-direction: row;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background-color: #FFFF;
+}
+.custom-carousel
+{
+    .slick-dots li.slick-active button {
+        background : #deb975 !important
+    }
+}
+.transfer-title {
+    transform: translate(-100%,0);
+    position: absolute ;
+    bottom: 20% ; 
+    transition: transform 0.5s ease-in 1s; 
+    height:150px; 
+    width:400px ;
+    background-color:#edc4585e;
+    opacity: 0.8;
+    border: #deb975 0.1 solid;
+}
+.custom-carousel .transfer-title.active {
+    transform: translate(60%,0) ;
+}
