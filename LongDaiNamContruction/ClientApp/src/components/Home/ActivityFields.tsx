@@ -45,3 +45,4 @@ const {Title}= Typography;
         </Carousel>
     )
 }
+export default ActivityFields;
