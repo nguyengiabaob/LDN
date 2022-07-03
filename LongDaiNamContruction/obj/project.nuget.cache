@@ -1,16 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "ssROhfu1GNOEQ5MiBhrGObu6Bk/6YptYuMNO/OWMnRrtkcimGXGl+TvHs8JIKmRrq8zA9BIFQjbyccxDqcEzeg==",
+  "dgSpecHash": "FJN+Gppqb1TJu05HVjIiv4SSu1+o7/02DeduQ44y00nog/pFINgHtL3neBxq7fwDdI0lqFdi0gAgnnyGI3u5pA==",
   "success": true,
-  "projectFilePath": "D:\\Project\\NewProject\\LDN\\LongDaiNamContruction\\LongDaiNamContruction.csproj",
+  "projectFilePath": "D:\\LDNContruction\\LongDaiNamContruction\\LongDaiNamContruction\\LongDaiNamContruction.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\VNTTS\\.nuget\\packages\\microsoft.aspnetcore.spaservices.extensions\\5.0.1\\microsoft.aspnetcore.spaservices.extensions.5.0.1.nupkg.sha512",
-    "C:\\Users\\VNTTS\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\5.0.0\\microsoft.extensions.fileproviders.abstractions.5.0.0.nupkg.sha512",
-    "C:\\Users\\VNTTS\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\5.0.0\\microsoft.extensions.fileproviders.physical.5.0.0.nupkg.sha512",
-    "C:\\Users\\VNTTS\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\5.0.0\\microsoft.extensions.filesystemglobbing.5.0.0.nupkg.sha512",
-    "C:\\Users\\VNTTS\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
-    "C:\\Users\\VNTTS\\.nuget\\packages\\microsoft.typescript.msbuild\\4.7.3\\microsoft.typescript.msbuild.4.7.3.nupkg.sha512",
-    "C:\\Users\\VNTTS\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512"
+    "C:\\Users\\Asus\\.nuget\\packages\\microsoft.aspnetcore.spaservices.extensions\\5.0.1\\microsoft.aspnetcore.spaservices.extensions.5.0.1.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\5.0.0\\microsoft.extensions.fileproviders.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\5.0.0\\microsoft.extensions.fileproviders.physical.5.0.0.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\5.0.0\\microsoft.extensions.filesystemglobbing.5.0.0.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\microsoft.typescript.msbuild\\4.7.3\\microsoft.typescript.msbuild.4.7.3.nupkg.sha512"
   ],
   "logs": []
 }
