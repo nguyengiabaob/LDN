@@ -162,7 +162,9 @@ body,html {
     flex-direction:column;
     align-items:center;
     background-image: url('https://deltagroup.vn/wp-content/uploads/2020/07/Capture6.png');
-    transform: translate3d(-50%, 50%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
     & .ant-row
     {
 
@@ -191,4 +193,13 @@ body,html {
     align-Items: flex-end;
     border: 4px solid #FFFF;
     height: 100%
+}
+.res-Image
+{
+    height:  576px;
+}
+@media screen and (max-width:1024px) {
+    .res-Image {
+        height: 800px;
+    }
 }
