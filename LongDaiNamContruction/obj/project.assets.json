@@ -296,19 +296,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\VNTTS\\.nuget\\packages\\": {}
+    "C:\\Users\\Asus\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project\\NewProject\\LDN\\LongDaiNamContruction\\LongDaiNamContruction.csproj",
+      "projectUniqueName": "D:\\LDNContruction\\LongDaiNamContruction\\LongDaiNamContruction\\LongDaiNamContruction.csproj",
       "projectName": "LongDaiNamContruction",
-      "projectPath": "D:\\Project\\NewProject\\LDN\\LongDaiNamContruction\\LongDaiNamContruction.csproj",
-      "packagesPath": "C:\\Users\\VNTTS\\.nuget\\packages\\",
-      "outputPath": "D:\\Project\\NewProject\\LDN\\LongDaiNamContruction\\obj\\",
+      "projectPath": "D:\\LDNContruction\\LongDaiNamContruction\\LongDaiNamContruction\\LongDaiNamContruction.csproj",
+      "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+      "outputPath": "D:\\LDNContruction\\LongDaiNamContruction\\LongDaiNamContruction\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\VNTTS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.1.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -316,6 +321,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "D:\\devpresss\\System\\Components\\Packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -355,12 +361,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[5.0.17, 5.0.17]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -369,7 +369,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
