@@ -1,6 +1,8 @@
 import { Button, Card, Col, Image, Row, Typography } from "antd";
 import '../../Style/CustomStyle.scss'
 import React from "react";
+import { RightOutlined } from "@ant-design/icons";
+
 const SubMain = ()=>{
 const {Title}= Typography; 
     return(
@@ -38,23 +40,23 @@ const {Title}= Typography;
                         <p  style={{color:'#FFFF'}}>
                         DELTA mong muốn xây dựng những mối quan hệ hợp tác chiến lược để cùng nhau tiến xa hơn, tiến mạnh mẽ hơn. Hãy nhanh chóng tham gia cùng với chúng tôi !
                         </p>
-                        <Row gutter={[{
-                            xs: 8,
-                            sm: 16,
-                            md: 24,
-                            lg: 32,
+                        <Row  gutter={[{
+                                xs: 2,
+                                sm: 2,
+                                md: 2,
+                                lg: 2,
 
-                        },{
-                            xs: 8,
-                            sm: 16,
-                            md: 24,
-                            lg: 32,
-                        }]}>
-                        <Col lg={12} xs={12}>
-                            <Button style={{width:'100%', borderRadius:'4%',backgroundColor:'#FFFF',color:'#000000'}}  type="primary">Liên hệ LDN</Button>
+                            },{
+                                xs: 8,
+                                sm: 8,
+                                md: 8,
+                                lg: 8,
+                            }]}>
+                        <Col lg={12} xs={24} sm={12}>
+                            <Button id="btn-intro" className="custom-btn-home-1" type="primary"> <span style={{marginRight:'2em'}}>Giới thiệu năng lực </span><span style={{display:'flex', alignItems:'center', justifyContent:'center'}}> <RightOutlined style={{verticalAlign:'center'}} translate={undefined} /> </span></Button>
                         </Col>
-                        <Col  lg={ 12} xs={12}>
-                            <Button style={{borderRadius:'4%', backgroundColor:'#FFFF',color:'#000000'}} type="primary">Liên hệ LDN</Button>
+                        <Col  lg={10} xs={24} sm={12} >
+                            <Button className="custom-btn-home-2"  type="primary"><span style={{marginRight:'1em'}}>Liên hệ LDN </span><span style={{display:'flex', alignItems:'center', justifyContent:'center'}}> <RightOutlined style={{verticalAlign:'center'}} translate={undefined} /> </span></Button>
                         </Col>
                     </Row>
                     </Col >
