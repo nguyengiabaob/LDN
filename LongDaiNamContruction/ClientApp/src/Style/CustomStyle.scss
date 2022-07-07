@@ -7,7 +7,9 @@ body,html {
     max-width: 100%;
     width: 100vw !important;
     height: 100vh !important;
-    overflow-x:hidden
+    overflow-x:hidden;
+    min-width: 200px !important;
+    
 }
 .menu-font {
     color: rgba(0, 0, 0, 0.85) !important;
@@ -59,6 +61,12 @@ body,html {
         flex-wrap: wrap;
     }
 }
+@media screen and (max-width: 370px)
+{
+    .res-Image {
+        height: 1000px !important;
+    }
+}
 .custom-nav {
     display: flex;
     flex-direction: row;
@@ -88,6 +96,28 @@ body,html {
 }
 .custom-carousel .transfer-title.active {
     transform: translate(60%,0) ;
+}
+.custom-btn-home-1
+{
+    width: 80% ;
+    border-radius: 99px !important ;
+    background-color: #FFFF  !important;
+    color: #000000 !important; 
+    display: flex !important ; 
+    justify-content: center !important;
+    align-Items: center !important;
+    padding: 20px;
+}
+.custom-btn-home-2
+{
+    width: 60% ;
+    border-radius: 99px !important ;
+    background-color: #FFFF  !important;
+    color: #000000 !important; 
+    display: flex !important ; 
+    justify-content: center !important;
+    align-Items: center !important;
+    padding: 20px;
 }
 .font-title
 {
@@ -198,8 +228,19 @@ body,html {
 {
     height:  576px;
 }
-@media screen and (max-width:1024px) {
+@media screen and (max-width:1024px)  and (min-width: 370px){
     .res-Image {
-        height: 800px;
+        height: 900px;
     }
+}
+#btn-intro
+{
+    background-color: transparent !important;
+    border: solid 1px #FFFF !important;
+    color: #FFFF !important;
+}
+#btn-intro:hover
+{
+    background-color: #FFFF !important;
+    color: #000000 !important;
 }
