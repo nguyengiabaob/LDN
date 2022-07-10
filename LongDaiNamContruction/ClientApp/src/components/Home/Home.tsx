@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography } from 'antd';
 import '../../Style/CustomStyle.scss';
 import ActivityFields from "./ActivityFields";
 import SpecialConstruction from "./SpecialContruction";
 import SubMain from "./SubMain";
-
+import News from "./News";
 const Home =()=>{
 const {Title}= Typography;
     return (
@@ -14,6 +14,7 @@ const {Title}= Typography;
         <ActivityFields/>
         <SpecialConstruction/>
         <SubMain/>
+        <News/>
     </div> 
     )
 }
