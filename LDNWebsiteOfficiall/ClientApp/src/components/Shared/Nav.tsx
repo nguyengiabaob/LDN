@@ -1,7 +1,15 @@
 ﻿import { Dropdown, Image, Menu, Space } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
+import { getListMenu } from "../../Service/MenuService";
 const Nav = () => {
+    const [listMenu,setListMenu]= useState([]);
+    useEffect(()=>{
+      getListMenu().then(res=>{
+        console.log('Menus',res.data);
+        setListMenu(res.data);
+      })
+    },[])
     const menu = (
         <Menu
           items={[
