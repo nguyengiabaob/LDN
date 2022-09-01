@@ -3443,6 +3443,24 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+ckeditor4-integrations-common@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ckeditor4-integrations-common/-/ckeditor4-integrations-common-1.0.0.tgz#a8afc33b94877b4d01362c7c73aa9eec162b2d20"
+  integrity sha512-OAoQT/gYrHkg0qgzf6MS/rndYhq3SScLVQ3rtXQeuCE8ju7nFHg3qZ7WGA2XpFxcZzsMP6hhugXqdel5vbcC3g==
+
+ckeditor4-react@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ckeditor4-react/-/ckeditor4-react-4.0.0.tgz#3465b27f5e12ad140b7fd05fe81894eab66f6c65"
+  integrity sha512-3IWCcAGIdi0XkU6Vy/7jU2DhAo9FHymsCthxohDS4zlDwUN4cPBdkivIFiwHtdLg96qbGFilLc6EwbNGuqnsWA==
+  dependencies:
+    ckeditor4-integrations-common "^1.0.0"
+    prop-types "^15.8.1"
+
+ckeditor4@^4.19.1:
+  version "4.19.1"
+  resolved "https://registry.yarnpkg.com/ckeditor4/-/ckeditor4-4.19.1.tgz#73e786c4194e9ee6072a0fa267ac32f230d69174"
+  integrity sha512-eK/tilHSUpLc9mrD7Lvt07LJfJ13BBa4ftxJBxIX49sGMlWg5WaB81C+MRBZwnntcfpjVdyCLpZAptAHTDB65Q==
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.npmjs.org/class-utils/-/class-utils-0.3.6.tgz"

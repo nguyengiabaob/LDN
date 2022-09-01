@@ -4,10 +4,13 @@ import ActivityFields from "./ActivityFields";
 import SpecialConstruction from "./SpecialContruction";
 import SubMain from "./SubMain";
 import News from "./News";
+import Slider from "../Shared/Slider";
 const Home =()=>{
 const {Title}= Typography;
     return (
-    <div style={{marginTop:'5em', zIndex:1000}}>
+        <>
+             <Slider/>
+             <div style={{marginTop:'5em', zIndex:1000}}>
         <Title className="font-title">Lĩnh vực hoạt động</Title>
         <p style={{textAlign:'center' }}>Công trình của công ty a thực hiện trên khắp cả nước luôn là những công trình nổi bật, phức tạp, đòi hỏi công nghệ xây dựng cập nhật nhất hiện nay.</p>
         <ActivityFields/>
@@ -30,6 +33,7 @@ const {Title}= Typography;
             </div>
         </div>
     </div> 
+        </>
     )
 }
 export default Home

@@ -78,6 +78,9 @@ namespace LDNWebsiteOfficiall.Controllers
         [HttpPost]
         public async Task<ActionResult<Menus>> PostMenus(Menus menus)
         {
+            menus.CreateBy= "bao";
+            menus.CreateDate = DateTime.Now;
+            menus.IsDeleted =false;
             _context.Menus.Add(menus);
             await _context.SaveChangesAsync();
 

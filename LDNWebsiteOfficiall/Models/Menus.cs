@@ -14,7 +14,6 @@ namespace LDNWebsiteOfficiall.Models
         public string CreateBy { get; set; }
         public string Icon { get; set; }
         public long? PagesId { get; set; }
-        public long? IsMenuParent { get; set; }
         public bool? IsDeleted { get; set; }
     }
 }

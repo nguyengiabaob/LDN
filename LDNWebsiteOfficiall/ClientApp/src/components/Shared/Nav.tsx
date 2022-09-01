@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import { getListMenu } from "../../Service/MenuService";
+import { ItemType } from "antd/lib/menu/hooks/useItems";
 const Nav = () => {
-    const [listMenu,setListMenu]= useState([]);
+    const [listMenu,setListMenu]= useState<any>([]);
     useEffect(()=>{
       getListMenu().then(res=>{
         console.log('Menus',res.data);
@@ -60,7 +61,51 @@ const Nav = () => {
                
 
             >
-            <Menu.Item  className="menu-font">
+              {listMenu.filter((i:any)=>i.parentMenu == null).map((x:any)=>{
+                  let items:any[] = [];
+                  let MenuChild :any;
+                  let childmenu = listMenu.filter((menu:any)=> menu.parentMenu !== null &&  menu.parentMenu == x.id )
+                  if( childmenu.length > 0)
+                  {
+                    childmenu.forEach((i:any,index:number)=>{
+                      let item = {
+                        
+                          key: index,
+                          label: (
+                            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                              {i.name}
+                            </a>
+                          ),
+                        
+                      }
+                      items.push(item);
+                    });
+                    MenuChild= (
+                      <Menu items={items}/> 
+
+                    )
+                  }
+                  return (
+                    
+                      childmenu.length > 0 ? 
+                      ( <Menu.Item  className="menu-font">
+                      <Dropdown overlay={MenuChild}>
+                      <Space>
+                          {x.name}
+                      <DownOutlined translate={undefined} />
+                      </Space>
+                      </Dropdown>
+                  </Menu.Item>)
+                   :
+                   <Menu.Item  className="menu-font">
+                   {
+                     x.name
+                   }
+                </Menu.Item> 
+                    
+                  )
+              })}
+            {/* <Menu.Item  className="menu-font">
                 Trang chủ
             </Menu.Item>
             
@@ -71,14 +116,14 @@ const Nav = () => {
                 <DownOutlined translate={undefined} />
                 </Space>
                 </Dropdown>
-            </Menu.Item>
+            </Menu.Item> */}
             {/* <Menu.SubMenu className="menu-font" key="SubMenu" title="Giới thiệu" >
                 <Menu.Item >
                     Giới thiệu 
                 </Menu.Item>
             </Menu.SubMenu> */}
            
-            <Menu.Item className="menu-font">
+            {/* <Menu.Item className="menu-font">
                Lĩnh vực
             </Menu.Item >
             <Menu.Item className="menu-font">
@@ -86,7 +131,7 @@ const Nav = () => {
             </Menu.Item>
             <Menu.Item className="menu-font">
                 Liên hệ
-            </Menu.Item>
+            </Menu.Item> */}
          
             </Menu>
         </nav>

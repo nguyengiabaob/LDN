@@ -1,39 +1,64 @@
-import React from 'react'
-import CIcon from '@coreui/icons-react'
+import React from "react";
+import CIcon from "@coreui/icons-react";
 import {
   cilBell,
   cilCalculator,
   cilChartPie,
   cilCursor,
   cilDrop,
+  cilHome,
   cilNotes,
   cilPencil,
   cilPuzzle,
   cilSpeedometer,
   cilStar,
-} from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+} from "@coreui/icons";
+import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react";
 
 const _nav = [
   {
     component: CNavItem,
-    name: 'Dashboard',
-    to: '/LDN/Admin/dashboard',
-    icon: <CIcon icon={cilSpeedometer} style={{color:'#000000'}} customClassName="nav-icon" />,
+    name: "Dashboard",
+    to: "/LDN/admin/dashboard",
+    icon: (
+      <CIcon
+        icon={cilHome}
+        style={{ color: "#000000" }}
+        customClassName="nav-icon"
+      />
+    ),
     badge: {
-      color: 'info',
-      text: 'NEW',
+      color: "info",
+      text: "NEW",
     },
   },
   {
     component: CNavTitle,
-    name: 'Danh mục',
+    name: "Danh mục",
   },
   {
     component: CNavItem,
-    name: 'Danh mục',
-     to: '/LDN/Admin/Category',
-    icon: <CIcon icon={cilDrop} style={{color:'#000000'}} customClassName="nav-icon" />,
+    name: "Menus",
+    to: "/LDN/admin/Menus",
+    icon: (
+      <CIcon
+        icon={cilDrop}
+        style={{ color: "#000000" }}
+        customClassName="nav-icon"
+      />
+    ),
+  },
+  {
+    component: CNavItem,
+    name: "Pages",
+    to: "/LDN/admin/Pages",
+    icon: (
+      <CIcon
+        icon={cilDrop}
+        style={{ color: "#000000" }}
+        customClassName="nav-icon"
+      />
+    ),
   },
   // {
   //   component: CNavItem,
@@ -293,6 +318,6 @@ const _nav = [
   //     },
   //   ],
   // },
-]
+];
 
-export default _nav
+export default _nav;

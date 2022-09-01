@@ -9,27 +9,28 @@ const AppContent = () => {
    const url = useLocation().pathname;
    console.log(url);
   return (
-    <CContainer lg>
+    <CContainer xl>
       <Suspense fallback={<CSpinner color="primary" />}>
         <Routes>
           {routes.map((route, idx) => {
+            // const NewComponent = NewHOC(Movie)
             return (
               route.component && (
                 <Route
                   key={idx}
                   path={route.path}
-                  exact={route.exact}
+                  // exact={route.exact}
                   name={route.name}
-                  render={(props) => (
-                    <>
-                      <route.component {...props} />
-                    </>
-                  )}
+                  element={ 
+                   
+                      <route.component  />
+                    
+                  }
                 />
               )
             )
           })}
-                  {/* { url  !=="/LDN/Admin" ? <Navigate  to={url} replace /> : <Navigate  to="/LDN/Admin/dashboard" replace /> } */}
+          <Route path="*" element={<Navigate replace to="/LDN/admin/dashboard" />} />
         </Routes>
       </Suspense>
     </CContainer>

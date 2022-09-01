@@ -14,6 +14,7 @@ import 'simplebar/dist/simplebar.min.css'
 import  Logo  from '../../src/assets/img/LOGO_n.png'
 // sidebar nav config
 import navigation from '../_nav'
+import { Image } from 'antd'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -33,7 +34,7 @@ const AppSidebar = () => {
       <CSidebarBrand className="d-none d-md-flex" to="/">
         {/* <CIcon className="sidebar-brand-full" icon={Logo} height={35} />
         <CIcon className="sidebar-brand-narrow" icon={Logo} height={35} /> */}
-        <img src={Logo} style={{height:"120px" ,width: "auto"}}/>
+        <Image preview={false} src={Logo} style={{height:"120px" ,width: "auto"}}/>
       </CSidebarBrand>
       <CSidebarNav >
         <SimpleBar >
