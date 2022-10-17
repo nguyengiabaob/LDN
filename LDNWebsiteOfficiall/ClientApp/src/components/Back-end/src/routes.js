@@ -1,4 +1,5 @@
 import React from "react";
+import Setting from "./views/setting/Setting";
 
 const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 
@@ -58,6 +59,7 @@ const InputGroup = React.lazy(() =>
 const Layout = React.lazy(() => import("./views/forms/layout/Layout"));
 const Range = React.lazy(() => import("./views/forms/range/Range"));
 const Select = React.lazy(() => import("./views/forms/select/Select"));
+const BrandsS = React.lazy(() => import("./views/Projects/Projects"));
 const Validation = React.lazy(() =>
   import("./views/forms/validation/Validation")
 );
@@ -70,7 +72,6 @@ const CoreUIIcons = React.lazy(() =>
 );
 const Flags = React.lazy(() => import("./views/icons/flags/Flags"));
 const Brands = React.lazy(() => import("./views/icons/brands/Brands"));
-
 // Notifications
 const Alerts = React.lazy(() => import("./views/notifications/alerts/Alerts"));
 const Badges = React.lazy(() => import("./views/notifications/badges/Badges"));
@@ -84,8 +85,8 @@ const routes = [
   // { path: "/theme", name: "Theme", component: Colors, exact: true },
   { path: "/Pages", name: "Pages", component: Pages },
   { path: "/Menus", name: "Menus", component: Category },
-  { path: "/theme/typography", name: "Typography", component: Typography },
-  { path: "/base", name: "Base", component: Cards, exact: true },
+  { path: "/projects", name: "projects", component: BrandsS },
+  { path: "/setting", name: "setting", component: Setting },
   { path: "/base/accordion", name: "Accordion", component: Accordion },
   { path: "/base/breadcrumbs", name: "Breadcrumbs", component: Breadcrumbs },
   { path: "/base/cards", name: "Cards", component: Cards },

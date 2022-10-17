@@ -26,7 +26,7 @@ const Page500 = React.lazy(() => import("./views/pages/page500/Page500"));
 
 class App extends Component {
   render() {
-    console.log("123123123");
+    // console.log("123123123");
     return (
       <React.Suspense fallback={loading}>
         <Routes>

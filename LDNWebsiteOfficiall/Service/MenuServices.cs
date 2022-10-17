@@ -1,20 +1,37 @@
-﻿using LDNWebsiteOfficiall.DBContext;
+﻿
+using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.IService;
 using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LDNWebsiteOfficiall.IProcedure;
+using Dapper;
+using System.Data;
+using LDNWebsiteOfficiall.Helper;
 
 namespace LDNWebsiteOfficiall.Service
 {
-    public class MenuService : IMenuService
+    public class MenuServices : IMenuService
     {
         private readonly LDNWebisteContext _LDNWebisteContext;
-        MenuService (LDNWebisteContext LDNWebisteContext)
+        private readonly IDapper _dapper;
+        private readonly IStoreProcedure _Procedure;
+        public MenuServices(LDNWebisteContext LDNWebisteContext, IDapper dapper, IStoreProcedure Procedure)
         {
             _LDNWebisteContext = LDNWebisteContext;
+            _dapper= dapper;
+            _Procedure =Procedure;
+        }
+        public async Task<IEnumerable<MenusModel>> GetListMenus ()
+        {
+            var param = new DynamicParameters();
+            var result = await _dapper.GetMutipleByStoreProcedureAsync<MenusModel>(_Procedure.getListMenu, param);
+            return result;
+        
         }
         public Menus InsertMenu(Menus menu)
         {
@@ -33,5 +50,7 @@ namespace LDNWebsiteOfficiall.Service
             _LDNWebisteContext.SaveChanges();
             return menu;
         }
+
+      
     }
 }

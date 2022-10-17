@@ -60,6 +60,34 @@ const _nav = [
       />
     ),
   },
+  {
+    component: CNavItem,
+    name: "Dự án",
+    to: "/LDN/admin/Projects",
+    icon: (
+      <CIcon
+        icon={cilDrop}
+        style={{ color: "#000000" }}
+        customClassName="nav-icon"
+      />
+    ),
+  },
+  {
+    component: CNavTitle,
+    name: "Cài đặt",
+  },
+  {
+    component: CNavItem,
+    name: "Setting",
+    to: "/LDN/admin/setting",
+    icon: (
+      <CIcon
+        icon={cilDrop}
+        style={{ color: "#000000" }}
+        customClassName="nav-icon"
+      />
+    ),
+  },
   // {
   //   component: CNavItem,
   //   name: 'Typography',

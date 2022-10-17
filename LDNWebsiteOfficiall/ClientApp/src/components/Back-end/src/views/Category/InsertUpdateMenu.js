@@ -2,17 +2,32 @@ import { Button, Col, Form, Input, message, Modal, Row, Select } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import React, { useEffect, useState } from "react";
 import { Value } from "sass";
-import { getListMenu, postMenu } from "../../../../../Service/MenuService";
+import { TransferValueObject } from "../../../../../GeneralFunction/GeneralFunction";
+import {
+  deleteMenu,
+  getListMenu,
+  postMenu,
+  UpdateMenu,
+} from "../../../../../Service/MenuService";
+import { getPages } from "../../../../../Service/PageService";
 const InsertUploadMenu = (props) => {
   const [ListMenus, setListMenu] = useState([]);
+  const [ListPages, setLstPages] = useState([]);
   const getMenus = () => {
     getListMenu().then((res) => {
       console.log("menus", res.data);
       setListMenu(res.data);
     });
   };
+
+  const gePages = () => {
+    getPages().then((res) => {
+      setLstPages(res.data);
+    });
+  };
   const CancelModal = () => {
     props.setVisible(false);
+    form.resetFields();
   };
   const [form] = useForm();
   const { Option } = Select;
@@ -22,17 +37,54 @@ const InsertUploadMenu = (props) => {
       duration: 2,
       content: "loading",
     });
-    postMenu(value).then((res) => {
-      message.destroy();
-      message.success({
-        duration: 2,
-        content: "Thêm menu thành công",
-      });
-    });
+    if (!props.dataUpdate) {
+      postMenu(TransferValueObject(value))
+        .then((res) => {
+          message.destroy();
+          CancelModal();
+          message.success({
+            duration: 2,
+            content: "Thêm menu thành công",
+          });
+          props.onRefresh(true);
+        })
+        .catch((e) => {
+          message.destroy();
+          CancelModal();
+          message.error({
+            duration: 2,
+            content: "thêm menu không thành công",
+          });
+        });
+    } else {
+      value.id = props.dataUpdate.id;
+      UpdateMenu(props.dataUpdate.id, TransferValueObject(value))
+        .then((res) => {
+          message.destroy();
+          CancelModal();
+          message.success({
+            duration: 2,
+            content: "Sửa menuthành công",
+          });
+          props.onRefresh(true);
+        })
+        .catch((e) => {
+          message.destroy();
+          CancelModal();
+          message.error({
+            duration: 2,
+            content: "Sửa menu không thành công",
+          });
+        });
+    }
   };
   useEffect(() => {
     getMenus();
+    gePages();
   }, []);
+  useEffect(() => {
+    form.setFieldsValue(props.dataUpdate);
+  }, [props.dataUpdate]);
   return (
     <Modal
       title="Thêm Menu"
@@ -42,7 +94,6 @@ const InsertUploadMenu = (props) => {
       width={"60%"}
       centered
       closable={false}
-      style={{ marginLeft: "259px" }}
       cancelText={"Hủy"}
       okText={"Thêm"}
     >
@@ -70,12 +121,17 @@ const InsertUploadMenu = (props) => {
               label="Trang"
               rules={[
                 {
-                  // required: true,
+                  required: true,
                   message: `Hãy chọn trang`,
                 },
               ]}
             >
-              <Select placeholder="Chọn trang"></Select>
+              <Select placeholder="Chọn trang">
+                {ListPages.length > 0 &&
+                  ListPages.map((x) => {
+                    return <Option value={x.id}>{x.name}</Option>;
+                  })}
+              </Select>
             </Form.Item>
           </Col>
         </Row>
@@ -92,10 +148,13 @@ const InsertUploadMenu = (props) => {
               ]}
             >
               <Select placeholder="Chọn menu">
-                {ListMenus.length > 0 &&
-                  ListMenus.map((item) => {
-                    return <Option key={item.id}>{item.name}</Option>;
-                  })}
+                {props.dataUpdate &&
+                  ListMenus.length > 0 &&
+                  ListMenus.filter((x) => x.id !== props.dataUpdate.id).map(
+                    (item) => {
+                      return <Option key={item.id}>{item.name}</Option>;
+                    }
+                  )}
               </Select>
             </Form.Item>
           </Col>

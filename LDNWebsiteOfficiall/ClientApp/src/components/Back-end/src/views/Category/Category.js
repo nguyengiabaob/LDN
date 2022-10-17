@@ -10,49 +10,103 @@ import {
 } from "@coreui/react";
 // import CategoriesService from "../../../../Data/Service/CategoriesService";
 import { useSelector } from "react-redux";
-import { Button, Card, Table } from "antd";
+import { Button, Card, message, Table } from "antd";
 import InsertUploadMenu from "./InsertUpdateMenu";
+import {
+  deleteMenu,
+  getMenusWithUrl,
+} from "../../../../../Service/MenuService";
+import { BiEdit } from "react-icons/bi";
+import { FiDelete } from "react-icons/fi";
+import { MdDeleteOutline } from "react-icons/md";
 const Category = () => {
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
   const [dataCatergory, setCatergory] = React.useState([]);
+  const [dataUpdate, setdataUpdate] = React.useState();
   const [visible, setVisible] = useState(false);
+  const [refresh, setRefresh] = useState(true);
   const columns = [
     {
       id: 1,
       title: "STT",
-      dataIndex: "",
+      dataIndex: "stt",
     },
     {
       id: 2,
       title: "Tên trang",
-      dataIndex: "",
+      dataIndex: "name",
     },
-    {
-      id: 3,
-      title: "File Folder",
-      dataIndex: "",
-    },
+    // {
+    //   id: 3,
+    //   title: "File Folder",
+    //   dataIndex: "",
+    // },
     {
       id: 4,
       title: "Url",
-      dataIndex: "",
+      dataIndex: "url",
     },
-    {
-      id: 5,
-      title: "Icon",
-      dataIndex: "",
-    },
+    // {
+    //   id: 5,
+    //   title: "Icon",
+    //   dataIndex: "",
+    // },
     {
       id: 6,
-      title: "Trang con",
-      dataIndex: "",
+      title: "Trang Cha",
+      dataIndex: "parentName",
+    },
+    {
+      title: "",
+      dataIndex: "Action",
+      key: "Action",
+      render: (value, row) => {
+        return (
+          <div>
+            <Button
+              onClick={() => {
+                setVisible(true);
+                setdataUpdate(row);
+              }}
+            >
+              <BiEdit color="edc458" size={28} />
+            </Button>
+            <Button
+              onClick={() => {
+                onDelete(row.id);
+              }}
+              style={{ marginLeft: "2px" }}
+            >
+              <MdDeleteOutline color="red" size={28} />
+            </Button>
+          </div>
+        );
+      },
     },
   ];
   const onCreateMenu = () => {
+    setRefresh(false);
     setVisible(true);
   };
+  const getMenusList = () => {
+    getMenusWithUrl().then((res) => {
+      if (res && res.data.length > 0) {
+        res.data.forEach((x, index) => {
+          x["stt"] = index + 1;
+        });
+
+        setCatergory(res.data);
+      }
+    });
+  };
+  useEffect(() => {
+    if (refresh == true) {
+      getMenusList();
+    }
+  }, [refresh]);
+
   // const GetNameParentMenu = (id, MenuArray)=>{
   //    let a =  MenuArray.find(i=> i.id==id);
   //     return a.nameCategory;
@@ -88,33 +142,28 @@ const Category = () => {
 
   // }
   // },[menu])
-  const colData = [
-    {
-      title: "STT",
-      dataIndex: "STT",
-      key: "STT",
-    },
-    {
-      title: "Name",
-      dataIndex: "nameCategory",
-      key: "nameCategory",
-    },
-    {
-      title: "Url",
-      dataIndex: "url",
-      key: "url",
-    },
-    {
-      title: "File Folder",
-      dataIndex: "fileFolder",
-      key: "fileFolder",
-    },
-    {
-      title: "Parent Menu",
-      dataIndex: "parentName",
-      key: "parentName",
-    },
-  ];
+  const onDelete = (id) => {
+    message.loading({
+      duration: 5,
+      content: "Loading",
+    });
+    deleteMenu(id)
+      .then((res) => {
+        message.destroy();
+        message.loading({
+          duration: 5,
+          content: "Menu đã dược xóa",
+        });
+        setRefresh(true);
+      })
+      .catch((e) => {
+        message.destroy();
+        message.loading({
+          duration: 5,
+          content: "Menu chưa được dược xóa",
+        });
+      });
+  };
   return (
     <div>
       <Card style={{ padding: "0px 5px 0px 5px", position: "relative" }}>
@@ -133,10 +182,15 @@ const Category = () => {
           </Button>
         </div>
         <div>
-          <Table dataSource={[]} columns={columns} />
+          <Table dataSource={dataCatergory} columns={columns} />
         </div>
       </Card>
-      <InsertUploadMenu visible={visible} setVisible={setVisible} />
+      <InsertUploadMenu
+        onRefresh={setRefresh}
+        dataUpdate={dataUpdate}
+        visible={visible}
+        setVisible={setVisible}
+      />
     </div>
   );
 };

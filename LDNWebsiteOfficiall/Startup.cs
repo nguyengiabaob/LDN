@@ -1,5 +1,10 @@
 
 using LDNWebsiteOfficiall.DBContext;
+using LDNWebsiteOfficiall.Helper;
+using LDNWebsiteOfficiall.IProcedure;
+using LDNWebsiteOfficiall.IService;
+using LDNWebsiteOfficiall.Procedure;
+using LDNWebsiteOfficiall.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +29,10 @@ namespace LDNWebsiteOfficiall
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<LDNWebisteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IDapper, Dapperr>();
+            services.AddTransient<IStoreProcedure,Procedures>();
+            services.AddTransient<IMenuService,MenuServices>();
+            services.AddTransient<IUploadFile,UploadFile>();
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory

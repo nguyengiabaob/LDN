@@ -8,6 +8,7 @@
    "ModelNamespace": null,
    "OutputContextPath": "DBContext",
    "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "LDNWebsiteOfficiall",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 0,
@@ -63,5 +64,6 @@
    "UseNodaTime": false,
    "UseNullableReferences": false,
    "UseSchemaFolders": false,
-   "UseSpatial": false
+   "UseSpatial": false,
+   "UseT4": false
 }

@@ -46,9 +46,7 @@ namespace LDNWebsiteOfficiall.DBContext
 
             modelBuilder.Entity<Page>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
@@ -58,13 +56,7 @@ namespace LDNWebsiteOfficiall.DBContext
 
                 entity.Property(e => e.Name).IsRequired();
 
-                entity.Property(e => e.PageContent).IsRequired();
-
-                entity.Property(e => e.Path).IsRequired();
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Title).HasMaxLength(50);
 
                 entity.Property(e => e.Url).HasColumnName("URL");
             });

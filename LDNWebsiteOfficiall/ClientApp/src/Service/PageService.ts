@@ -3,6 +3,9 @@ import { deleteApi, getApi, postApi, putApi } from "./Client";
 export const getPages = () => {
   return getApi("/Pages");
 };
+export const getPagesById = (id: any) => {
+  return getApi(`/Pages/${id}`);
+};
 export const AddPage = (data: any) => {
   return postApi(`/Pages`, data);
 };

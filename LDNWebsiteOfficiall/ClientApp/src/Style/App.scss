@@ -13,6 +13,7 @@
 {
   --title-color : #cd8e0d  ;
   --border-color-grey: #d9d9d9;
+  --background-white: #FFFF
 }
 
 // Select
@@ -22,4 +23,48 @@
     {
         border-radius: 8px;
     }
+}
+.ldn-table
+{
+    border: 1px solid var(--border-color-grey) ;
+    padding: 5px;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn
+{
+    color : #cd8e0d 
+}
+.ant-tabs-ink-bar
+{
+    background: #cd8e0d ;
+}
+.ant-form-item-label
+{
+    text-align: left;
+    white-space: unset;
+}
+.ant-form-horizontal .ant-form-item-label
+{
+    flex-grow: 0;
+}
+.div-row .ant-col{
+    max-width: 100%;
+}
+.ant-form-item-label .ant-form-item-required:after {
+    display: inline-block !important;
+    margin-right: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: Roboto,Arial;
+    line-height: 1;
+    content: "*";
+}
+.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before
+{
+    display: none;
+    margin-right: 0px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: '';
 }

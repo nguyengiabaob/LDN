@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.IService;
+using LDNWebsiteOfficiall.Models.ViewModels;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -15,10 +17,11 @@ namespace LDNWebsiteOfficiall.Controllers
     public class MenusController : ControllerBase
     {
         private readonly LDNWebisteContext _context;
-
-        public MenusController(LDNWebisteContext context)
+        private readonly IMenuService _MenusService;
+        public MenusController(LDNWebisteContext context, IMenuService MenusService)
         {
             _context = context;
+            _MenusService = MenusService;
         }
 
         // GET: api/Menus
@@ -27,7 +30,13 @@ namespace LDNWebsiteOfficiall.Controllers
         {
             return await _context.Menus.ToListAsync();
         }
+        [HttpGet("GetMenusWithUrl")]
+        public async  Task<IEnumerable<MenusModel>> GetMenusWithUrl()
+        {
+            return await _MenusService.GetListMenus();
 
+         
+        }
         // GET: api/Menus/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Menus>> GetMenus(int id)

@@ -13,6 +13,7 @@ namespace LDNWebsiteOfficiall.Models
         public string Url { get; set; }
         public string Title { get; set; }
         public string PageContent { get; set; }
+        public string Component { get; set; }
         public string CreateBy { get; set; }
         public DateTime? CreateDate { get; set; }
         public string ModifyBy { get; set; }

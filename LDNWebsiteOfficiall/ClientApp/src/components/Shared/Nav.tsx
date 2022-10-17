@@ -1,54 +1,56 @@
 ﻿import { Dropdown, Image, Menu, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
-import { getListMenu } from "../../Service/MenuService";
+import { getListMenu, getMenusWithUrl } from "../../Service/MenuService";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
+import { useNavigate } from "react-router-dom";
 const Nav = () => {
+  let navigate = useNavigate();
     const [listMenu,setListMenu]= useState<any>([]);
     useEffect(()=>{
-      getListMenu().then(res=>{
+      getMenusWithUrl().then(res=>{
         console.log('Menus',res.data);
         setListMenu(res.data);
       })
     },[])
-    const menu = (
-        <Menu
-          items={[
-            {
-              key: '1',
-              label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                  1st menu item
-                </a>
-              ),
-            },
-            {
-              key: '2',
-              label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                  2nd menu item (disabled)
-                </a>
-              ),
-              icon: <SmileOutlined translate={undefined} />,
-              disabled: true,
-            },
-            {
-              key: '3',
-              label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                  3rd menu item (disabled)
-                </a>
-              ),
-              disabled: true,
-            },
-            {
-              key: '4',
-              danger: true,
-              label: 'a danger item',
-            },
-          ]}
-        />
-      ); 
+    // const menu = (
+    //     <Menu
+    //       items={[
+    //         {
+    //           key: '1',
+    //           label: (
+    //             <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+    //               1st menu item
+    //             </a>
+    //           ),
+    //         },
+    //         {
+    //           key: '2',
+    //           label: (
+    //             <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+    //               2nd menu item (disabled)
+    //             </a>
+    //           ),
+    //           icon: <SmileOutlined translate={undefined} />,
+    //           disabled: true,
+    //         },
+    //         {
+    //           key: '3',
+    //           label: (
+    //             <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+    //               3rd menu item (disabled)
+    //             </a>
+    //           ),
+    //           disabled: true,
+    //         },
+    //         {
+    //           key: '4',
+    //           danger: true,
+    //           label: 'a danger item',
+    //         },
+    //       ]}
+    //     />
+    //   ); 
 
     return (
         <nav className="border-menu custom-nav" >
@@ -57,11 +59,14 @@ const Nav = () => {
         </div>
             <Menu
                 className="custom-menu"
-                mode="horizontal"   
-               
+                mode="horizontal" 
+                
+                defaultSelectedKeys={['1']}
 
             >
               {listMenu.filter((i:any)=>i.parentMenu == null).map((x:any)=>{
+                  console.log(x);
+                  
                   let items:any[] = [];
                   let MenuChild :any;
                   let childmenu = listMenu.filter((menu:any)=> menu.parentMenu !== null &&  menu.parentMenu == x.id )
@@ -70,7 +75,7 @@ const Nav = () => {
                     childmenu.forEach((i:any,index:number)=>{
                       let item = {
                         
-                          key: index,
+                          key: i.id,
                           label: (
                             <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
                               {i.name}
@@ -88,8 +93,8 @@ const Nav = () => {
                   return (
                     
                       childmenu.length > 0 ? 
-                      ( <Menu.Item  className="menu-font">
-                      <Dropdown overlay={MenuChild}>
+                      ( <Menu.Item key={x.id}  className="menu-font">
+                      <Dropdown  overlayClassName="ldn-custtom-overplay" overlay={MenuChild}>
                       <Space>
                           {x.name}
                       <DownOutlined translate={undefined} />
@@ -97,7 +102,9 @@ const Nav = () => {
                       </Dropdown>
                   </Menu.Item>)
                    :
-                   <Menu.Item  className="menu-font">
+                   <Menu.Item onClick={()=>{
+                    navigate(x.url);
+                   }} key={x.id}  className="menu-font">
                    {
                      x.name
                    }
