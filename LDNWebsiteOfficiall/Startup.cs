@@ -30,9 +30,11 @@ namespace LDNWebsiteOfficiall
         {
             services.AddDbContext<LDNWebisteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IDapper, Dapperr>();
-            services.AddTransient<IStoreProcedure,Procedures>();
-            services.AddTransient<IMenuService,MenuServices>();
-            services.AddTransient<IUploadFile,UploadFile>();
+            services.AddTransient<IStoreProcedure, Procedures>();
+            services.AddTransient<IMenuService, MenuServices>();
+            services.AddTransient<IUploadFile, UploadFile>();
+            services.AddTransient<IprojectService, ProjectsService>();
+            services.AddTransient<IConfigService, ConfigsService>();
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory

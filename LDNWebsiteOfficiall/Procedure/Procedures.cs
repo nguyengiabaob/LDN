@@ -9,6 +9,7 @@ namespace LDNWebsiteOfficiall.Procedure
     {
         public string getListMenu => "getlistMenus ";
 
-      
+        public string getListProject => "Project_getProjects";
+        public string getSettingBytype => "getSettingBytype";
     }
 }

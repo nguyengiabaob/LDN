@@ -1,32 +1,136 @@
-import { Button, Card, Table } from "antd";
-import React, { useState } from "react";
+import { Button, Card, message, Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { BiEdit } from "react-icons/bi";
+import { MdDeleteOutline } from "react-icons/md";
+import {
+  DeleteProject,
+  getProjects,
+} from "../../../../../Service/ProjectService";
 import InsertUploadProjects from "./InsertuploadProject";
+import moment from "moment";
+import { getUploadImage } from "../../../../../Service/UploadService";
+import { baseUrl } from "../../../../../Service/Client";
 const Projects = () => {
+  const [ProjectLists, setProjectLists] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [Project, setProject] = useState();
+  const [refresh, setRefresh] = useState(true);
   const columns = [
     {
       title: "Chủ đầu tư",
-      dataindex: "investor",
-      key: "investor",
+      dataIndex: "owner",
+      key: "owner",
     },
     {
       title: "Tên dự án",
-      dataindex: "projectName",
-      key: "projectName",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Địa điểm",
-      dataindex: "Address",
-      key: "Address",
+      dataIndex: "address",
+      key: "address",
     },
     {
       title: "Giá trị",
-      dataindex: "value",
-      key: "value",
+      dataIndex: "total",
+      key: "total",
+      render: (value) => <span>{Number(value).toLocaleString()}</span>,
+    },
+    {
+      title: "",
+      dataIndex: "Action",
+      key: "Action",
+      render: (value, row) => {
+        return (
+          <div>
+            <Button
+              onClick={async () => {
+                let dataRow = row;
+                if (dataRow.startDate) {
+                  dataRow.startDate = moment(dataRow.startDate);
+                }
+                if (dataRow.endDate) {
+                  dataRow.endDate = moment(dataRow.endDate);
+                }
+                let ImageUpload = await getUploadImage(dataRow.id);
+                if (ImageUpload) {
+                  let Arrpath = ImageUpload.data?.data.split("\\");
+                  console.log("dsadas", Arrpath);
+                  if (Arrpath.length > 0) {
+                    let path =
+                      baseUrl +
+                      `/${Arrpath[Arrpath.length - 2]}/${
+                        Arrpath[Arrpath.length - 1]
+                      }`;
+
+                    dataRow.image = [
+                      {
+                        url: path,
+                      },
+                    ];
+                  }
+                }
+                setProject(dataRow);
+                setRefresh(false);
+                setVisible(true);
+              }}
+            >
+              <BiEdit color="edc458" size={28} />
+            </Button>
+            <Button
+              onClick={() => {
+                setRefresh(false);
+                onDelete(row.id);
+              }}
+              style={{ marginLeft: "2px" }}
+            >
+              <MdDeleteOutline color="red" size={28} />
+            </Button>
+          </div>
+        );
+      },
     },
   ];
+  const getProjectList = async () => {
+    let dataProject = await getProjects();
+    if (dataProject) {
+      setIsLoading(false);
+      console.log("dataProject", dataProject.data);
+      setProjectLists(dataProject.data);
+    }
+  };
   const onCreateProject = () => {
     setVisible(true);
+  };
+  useEffect(() => {
+    if (refresh == true) {
+      setIsLoading(true);
+      getProjectList();
+    }
+  }, [refresh]);
+  const onDelete = (id) => {
+    message.loading({
+      duration: 5,
+      content: "Loading",
+    });
+    DeleteProject(id)
+      .then((res) => {
+        message.destroy();
+        message.success({
+          duration: 5,
+          content: "Dự án đã dược xóa",
+        });
+        setRefresh(true);
+      })
+      .catch((e) => {
+        message.destroy();
+        message.loading({
+          duration: 5,
+          content: "Dự án chưa được dược xóa",
+        });
+      });
   };
   return (
     <div>
@@ -46,10 +150,19 @@ const Projects = () => {
           </Button>
         </div>
         <div>
-          <Table dataSource={[]} columns={columns} />
+          <Table
+            loading={isLoading}
+            dataSource={ProjectLists ? ProjectLists : []}
+            columns={columns}
+          />
         </div>
       </Card>
-      <InsertUploadProjects visible={visible} onvisible={setVisible} />
+      <InsertUploadProjects
+        onRefresh={setRefresh}
+        dataUpdate={Project}
+        visible={visible}
+        onvisible={setVisible}
+      />
     </div>
   );
 };

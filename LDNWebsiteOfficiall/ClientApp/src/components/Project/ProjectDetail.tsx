@@ -3,8 +3,8 @@ import React from 'react'
 import { LDNLibrary } from '../LibraryInterface/LDNInterface';
 import TableVertical from '../LibraryInterface/LibraryComponent/TableVertical';
 interface props {
-    visible: boolean,
-    onVisivle: (value:any)=> void
+    // visible: boolean,
+    // onVisivle: (value:any)=> void
 }
 const ProjectDetail = (props:props)=>{
     const columns = [
@@ -12,37 +12,37 @@ const ProjectDetail = (props:props)=>{
           title: 'Tên dự án',
           dataIndex: 'name',
           key: 'name',
-          render: text => <a>{text}</a>,
+          render: (text:any) => <a>{text}</a>,
         },
         {
           title: 'Chủ đầu tư',
           dataIndex: 'Author',
           key: 'Author',
-          render: text => <a>{text}</a>,
+          render: (text:any) => <a>{text}</a>,
         },
         {
           title: 'Giá trị',
           dataIndex: 'value',
           key: 'value',
-          render: text => <a>{text}</a>,
+          render:(text:any) => <a>{text}</a>,
         },
         {
           title: 'Gói thầu',
           dataIndex: 'package',
           key: 'package',
-          render: text => <a>{text}</a>,
+          render: (text:any) => <a>{text}</a>,
         },
         {
           title: 'Khởi công',
           dataIndex: 'startdate',
           key: 'startdate',
-          render: text => <a>{text}</a>,
+          render: (text:any) => <a>{text}</a>,
         },
         {
           title: 'Địa điểm',
           dataIndex: 'address',
           key: 'address',
-          render: text => <a>{text}</a>,
+          render: (text:any) => <a>{text}</a>,
         },
       ];
     const dataSource = [
@@ -57,32 +57,42 @@ const ProjectDetail = (props:props)=>{
       }
     ]
     const {TabPane}= Tabs
-    const onCancel= ()=>{
-        props.onVisivle(false);
-    }
+    // const onCancel= ()=>{
+    //     props.onVisivle(false);
+    // }
     return (
-        <Modal title="Chi tiết dự án" width={"1000px"} visible={props.visible} onCancel={(()=>{
-          onCancel()
-        })} centered footer={
-            <Button onClick={()=>{
-                onCancel()
-            }} >
-                Thoát 
-            </Button>
+        // <Modal title="Chi tiết dự án" width={"1000px"} visible={props.visible} onCancel={(()=>{
+        //   onCancel()
+        // })} centered footer={
+        //     <Button onClick={()=>{
+        //         onCancel()
+        //     }} >
+        //         Thoát 
+        //     </Button>
         
-        }
-        >
+        // }
+        // >
+        <div style ={{padding:'0px 15px 15px 15px'}}>
+          <div style={{marginTop:'10px'}} >
+            <p style={{fontWeight:'600', fontSize:'22px'}}>
+              Chi tiết dự án
+            </p>
+          </div>
             <div style={{display:'flex', justifyContent:'center'}}>
             <Image src='/Images/project1.jpg' width={700} height={400}/>
             </div>
 
             <Tabs style={{marginTop:'8px'}}>
-                <TabPane tab="Thông tin" key={1}>
+                <TabPane style={{padding:'0px 50px 0px 50xp'}} tab="Thông tin dự án" key={1}>
                     <LDNLibrary.TableVertical columns={columns} datasource={dataSource}/>
                 </TabPane>
-            
+                <TabPane tab="Album" >
+                  
+                  </TabPane>
             </Tabs>
-        </Modal>
+           
+          </div>
+        // </Modal>
     )
 }
 export default ProjectDetail;

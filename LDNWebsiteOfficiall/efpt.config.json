@@ -1,5 +1,5 @@
 ﻿{
-   "CodeGenerationMode": 0,
+   "CodeGenerationMode": 1,
    "ContextClassName": "LDNWebisteContext",
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
@@ -44,6 +44,18 @@
       },
       {
          "Name": "[dbo].[Users]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Setting].[Config]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Upload].[InsertData]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Upload].[UploadFile]",
          "ObjectType": 0
       }
    ],

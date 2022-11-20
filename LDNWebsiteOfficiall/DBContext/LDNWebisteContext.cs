@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using LDNWebsiteOfficiall.Models;
 
-#nullable disable
-
 namespace LDNWebsiteOfficiall.DBContext
 {
     public partial class LDNWebisteContext : DbContext
@@ -20,6 +18,8 @@ namespace LDNWebsiteOfficiall.DBContext
         {
         }
 
+        public virtual DbSet<Config> Config { get; set; }
+        public virtual DbSet<InsertData> InsertData { get; set; }
         public virtual DbSet<Menus> Menus { get; set; }
         public virtual DbSet<Page> Page { get; set; }
         public virtual DbSet<Permissions> Permissions { get; set; }
@@ -27,11 +27,42 @@ namespace LDNWebsiteOfficiall.DBContext
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<TypeContructed> TypeContructed { get; set; }
         public virtual DbSet<TypeProject> TypeProject { get; set; }
+        public virtual DbSet<UploadFile> UploadFile { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.Entity<Config>(entity =>
+            {
+                entity.ToTable("Config", "Setting");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreateBy)
+                    .HasColumnName("createBy")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnName("createDate")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Data).HasColumnName("data");
+
+                entity.Property(e => e.TypeSetting)
+                    .HasColumnName("typeSetting")
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<InsertData>(entity =>
+            {
+                entity.ToTable("InsertData", "Upload");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreateBy).HasMaxLength(50);
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            });
 
             modelBuilder.Entity<Menus>(entity =>
             {
@@ -81,6 +112,8 @@ namespace LDNWebsiteOfficiall.DBContext
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Description).HasMaxLength(50);
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifyBy).HasMaxLength(50);
 
@@ -136,6 +169,19 @@ namespace LDNWebsiteOfficiall.DBContext
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<UploadFile>(entity =>
+            {
+                entity.ToTable("UploadFile", "Upload");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.IdInsertData).HasColumnName("idInsertData");
+
+                entity.Property(e => e.ModifyDate).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -143,8 +189,8 @@ namespace LDNWebsiteOfficiall.DBContext
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifyBy)
-                    .HasMaxLength(50)
-                    .HasColumnName("modifyBy");
+                    .HasColumnName("modifyBy")
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.ModifyDate).HasColumnType("datetime");
 

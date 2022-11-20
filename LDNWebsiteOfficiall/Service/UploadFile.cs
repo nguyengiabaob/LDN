@@ -16,14 +16,14 @@ namespace LDNWebsiteOfficiall.Service
         {
             _WebhostEnvironment = webHostEnvironment;
         }
-        public async Task<bool> SaveImage(IFormFile imageFile)
+        public async Task<string> SaveImage(IFormFile imageFile)
         {
             string ImageName= new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ','-');
             ImageName = ImageName + DateTime.Now.ToString("yymmssff")+ Path.GetExtension(imageFile.FileName);
-            var imgPath =  Path.Combine(_WebhostEnvironment.ContentRootPath ,"Images",ImageName);
+            var imgPath =  Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images", ImageName);
                 if(File.Exists(imgPath))
                 {
-                    return false;
+                    return "";
             }
                 else
             {
@@ -31,10 +31,11 @@ namespace LDNWebsiteOfficiall.Service
                 {
                     await imageFile.CopyToAsync(fileStream);
                 }
+               
             }
             
             
-            return true;
+            return imgPath;
 
         }
     }

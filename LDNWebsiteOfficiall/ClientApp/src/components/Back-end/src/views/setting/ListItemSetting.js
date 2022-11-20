@@ -1,10 +1,23 @@
 import { Card, Modal } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GiSettingsKnobs } from "react-icons/gi";
+import { getSetting } from "../../../../../Service/ConfigService";
 import SettingSilder from "./Silder/SettingSilder";
 
 const ListItemSetting = (props) => {
   const [visible, setVisible] = useState(false);
+  const [formSetting, setFormSetting] = useState();
+  const getFormSetting = async () => {
+    const result = await getSetting("slider");
+    if (result && result.data) {
+      console.log("sdsadsadasdasdsa", result.data);
+
+      setFormSetting(result.data);
+    }
+  };
+  useEffect(() => {
+    getFormSetting();
+  }, []);
   return (
     <Modal
       visible={props.visible}
@@ -29,7 +42,11 @@ const ListItemSetting = (props) => {
           </div>
         </div>
       </Card>
-      <SettingSilder onCancel={setVisible} openModal={visible} />
+      <SettingSilder
+        dataUpdate={formSetting ? formSetting[4]?.data : null}
+        onCancel={setVisible}
+        openModal={visible}
+      />
     </Modal>
   );
 };

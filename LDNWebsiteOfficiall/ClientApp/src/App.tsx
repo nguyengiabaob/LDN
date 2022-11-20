@@ -17,6 +17,7 @@ import DefaultLayout from './components/Back-end/src/layout/DefaultLayout';
 import Introdcution from './components/Introduction/Introduction';
 import ListProject from './components/Project/ListProject';
 import { getMenusWithUrl } from './Service/MenuService';
+import ProjectDetail from './components/Project/ProjectDetail';
 const App = () => {
     const [Menus, setMenus] = React.useState<any>([]);
     const getMenus= ()=>{
@@ -85,6 +86,8 @@ const App = () => {
                     <Route path='/project' element={<ListProject />}>
     
                     </Route> */}
+                <Route path={`/projectDetail/:id`} element={< ProjectDetail/>}>
+                </Route> 
                 </Route>
                
                 <Route path='/LDN/admin/*' element={<Backend/>}>

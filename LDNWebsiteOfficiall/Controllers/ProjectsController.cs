@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.Models.ViewModels;
+using LDNWebsiteOfficiall.Service;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -15,17 +17,18 @@ namespace LDNWebsiteOfficiall.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly LDNWebisteContext _context;
-
-        public ProjectsController(LDNWebisteContext context)
+        private readonly IprojectService _projectService;
+        public ProjectsController(LDNWebisteContext context , IprojectService projectService)
         {
             _context = context;
+            _projectService = projectService;
         }
 
         // GET: api/Projects
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Projects>>> GetProjects()
+        public async Task<IEnumerable<ProjectsViewModel>> GetProjects()
         {
-            return await _context.Projects.ToListAsync();
+            return await _projectService.getListproject();
         }
 
         // GET: api/Projects/5

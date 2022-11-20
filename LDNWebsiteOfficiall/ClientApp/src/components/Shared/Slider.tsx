@@ -1,7 +1,7 @@
 import { Card, Carousel, Image } from "antd";
 import React, { useEffect, useState } from "react";
 const Slider = ()=>{
-    const [activeCarousel,setactiveCarousel]= useState();
+    const [activeCarousel,setactiveCarousel]= useState<any>();
     const activeSub= ( active:any, nextActive:any)=>{
         console.log('active',active);
         if(nextActive !=  activeCarousel)
@@ -13,6 +13,11 @@ const Slider = ()=>{
      useEffect(()=>{
         setactiveCarousel(0);
      },[])
+    const obj= {
+        abc: 123,
+        bcd: 'dsadsad',
+        sdasd: 'dsadasdasdasd'
+    }
     //  const endSub= ( active, direction)=>{
      
     //      console.log(active)
@@ -22,10 +27,11 @@ const Slider = ()=>{
     //      }
       
     //  }
+
     return(
         <div style={{width:'100%', marginTop:'5px', position:'relative'}}>
 
-     
+        {console.log('sdadasd',obj?.abc)}
         <Carousel
          beforeChange={activeSub}
          className="custom-carousel"

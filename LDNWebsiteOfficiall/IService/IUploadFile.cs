@@ -8,7 +8,7 @@ namespace LDNWebsiteOfficiall.IService
 {
     public interface IUploadFile
     {
-        Task<bool> SaveImage(IFormFile imageFile); 
+        Task<string> SaveImage(IFormFile imageFile); 
 
     }
 }

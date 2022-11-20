@@ -1,4 +1,7 @@
-﻿using LDNWebsiteOfficiall.IService;
+﻿using LDNWebsiteOfficiall.DBContext;
+using LDNWebsiteOfficiall.IService;
+using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,9 +18,11 @@ namespace LDNWebsiteOfficiall.Controllers
     public class GeneralController : ControllerBase
     {
         private readonly IUploadFile _UploadFile;
-        public GeneralController( IUploadFile uploadFile)
+        private readonly LDNWebisteContext _LDNWebisteContext;
+        public GeneralController( IUploadFile uploadFile, LDNWebisteContext ldnWebisteContext)
         {
             _UploadFile = uploadFile;
+            _LDNWebisteContext= ldnWebisteContext;
         }
         // GET: api/<GeneralController>
         [HttpGet]
@@ -28,22 +33,63 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // GET api/<GeneralController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public UploadFile Get(int id)
         {
-            return "value";
-        }
+            try
+            {
+                var Image = _LDNWebisteContext.UploadFile.Where(p => p.IdChecklist == id).FirstOrDefault();
+                if (Image != null)
+                {
+                    var path= Image.Data.Replace("\"", "/");
+                    return Image;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
+        
+            }
 
         // POST api/<GeneralController>
         [HttpPost("UploadFile")]
-        public async Task<IActionResult> UploadFile(IFormFile ImgFile)
+        public async Task<IActionResult> UploadFile([FromForm]UploadViewModel ImgFile)
         {
-            bool a = await _UploadFile.SaveImage(ImgFile);
-            if(a == true)
+            string a = await _UploadFile.SaveImage(ImgFile.Upload);
+            if(a != "")
             {
+                try
+                {
+                    UploadFile file= new UploadFile();
+                    file.CreateDate =DateTime.Now;
+                    file.IdChecklist = ImgFile.IdChecklist;
+                    file.IdInsertData= ImgFile.idInsertData;
+                    file.Data = a ;
+                    _LDNWebisteContext.UploadFile.Add(file);
+                    await _LDNWebisteContext.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
                 return StatusCode(200);
             }
              return BadRequest();
         }
+
+        //[HttpPost("insertUpload")]
+        //public async Task<IActionResult> UploadFile2(InsertData ImgFileInfo)
+        //  {
+            
+        //    if (ImgFileInfo != null)
+        //    {
+        //        _LDNWebisteContext.InsertData.Add
+        //        return StatusCode(200);
+        //    }
+        //    return BadRequest();
+        //}
 
         // PUT api/<GeneralController>/5
         [HttpPut("{id}")]

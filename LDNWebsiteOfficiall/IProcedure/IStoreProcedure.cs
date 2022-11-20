@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace LDNWebsiteOfficiall.IProcedure
 {
-   public interface IStoreProcedure
+    public interface IStoreProcedure
     {
-        string getListMenu {get;}       
+        string getListMenu { get; }
+        string getListProject { get; }
+        string getSettingBytype { get; }
     }
 }

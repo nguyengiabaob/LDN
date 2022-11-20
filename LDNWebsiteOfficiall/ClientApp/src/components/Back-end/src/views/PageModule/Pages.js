@@ -118,7 +118,7 @@ const Pages = () => {
           </Button>
         </div>
         <div>
-          <Table dataSource={Pages} columns={columns} />
+          <Table dataSource={Pages} columns={columns} rowKey="id" />
         </div>
       </Card>
       <InsertUpdateMPages
