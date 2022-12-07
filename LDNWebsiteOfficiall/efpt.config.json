@@ -19,6 +19,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[News]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Page]",
          "ObjectType": 0
       },
@@ -59,7 +63,7 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "DESKTOP-T11FG2C\\SQLEXPRESS.LDNWebiste",
+   "UiHint": "DESKTOP-T11FG2C\\ASUS.LDNWebiste",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDbContextSplitting": false,

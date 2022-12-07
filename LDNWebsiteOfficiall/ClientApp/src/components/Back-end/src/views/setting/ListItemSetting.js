@@ -2,6 +2,7 @@ import { Card, Modal } from "antd";
 import React, { useState, useEffect } from "react";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { getSetting } from "../../../../../Service/ConfigService";
+import ListSilder from "./Silder/ListSilder";
 import SettingSilder from "./Silder/SettingSilder";
 
 const ListItemSetting = (props) => {
@@ -42,11 +43,7 @@ const ListItemSetting = (props) => {
           </div>
         </div>
       </Card>
-      <SettingSilder
-        dataUpdate={formSetting ? formSetting[4]?.data : null}
-        onCancel={setVisible}
-        openModal={visible}
-      />
+      <ListSilder openModal={visible} onCancel={setVisible} />
     </Modal>
   );
 };

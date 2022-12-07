@@ -30,7 +30,7 @@ namespace LDNWebsiteOfficiall.Controllers
             return await _context.Config.ToListAsync();
         }
         [HttpGet("getSettingByType")]
-        public async Task<IEnumerable<Config>> GetConfigByType(string type)
+        public async Task<IEnumerable<dynamic>> GetConfigByType(string type)
         {
             return await _IConfigService.getSettingByType(type);
         }

@@ -11,8 +11,10 @@ import {
   Upload,
 } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import { CKEditor, useCKEditor } from "ckeditor4-react";
 import React, { useState, useEffect } from "react";
 import { baseUrl } from "../../../../../Service/Client";
+import { AddNew } from "../../../../../Service/NewsService";
 import {
   AddProject,
   UpdateProject,
@@ -21,19 +23,24 @@ import {
   postInsertUpload,
   UploadFile,
 } from "../../../../../Service/UploadService";
-
-const InsertUploadProjects = (props) => {
+interface props {
+    onRefresh: (value:any)=>void,
+    dataUpdate:any
+    visible:boolean,
+    onvisible: (value:any)=>void,
+}
+const  InsertUploadNews= (props:props) => {
   const [imageUrl, setImageUrl] = useState();
   const [loading, setLoading] = useState(false);
   const [form] = useForm();
-  const [fileList, setFileList] = useState([]);
-  const UploadImage = async (id, value) => {
+  const [fileList, setFileList] = useState<any>([]);
+  const UploadImage = async (id:any, value:any) => {
     if (value.image) {
       console.log("dasdas", value.image);
       let a = await Promise.all(
-        value.image.map(async (x) => {
+        value.image.map(async (x:any) => {
           console.log("dasdasIMAGE", x.originFileObj);
-          let insertDataUpload = await postInsertUpload(x.originFileObj, id);
+          let insertDataUpload = await postInsertUpload(x.originFileObj,id);
           console.log("Image", x.originFileObj);
           if (insertDataUpload) {
             let file = {
@@ -59,6 +66,9 @@ const InsertUploadProjects = (props) => {
       // ]);
     }
   }, [props.dataUpdate]);
+  useEffect(()=>{
+
+  },[])
   // const handleChange = ({ fileList }) => {
   //   // if (info.file.status === "uploading") {
   //   // setLoading(true);
@@ -75,37 +85,38 @@ const InsertUploadProjects = (props) => {
   //   // });
   //   // }
   // };
-  const handleChange = ({ fileList }) => {
+  const handleChange = ({ fileList }:any) => {
     if (fileList.length > 0) {
       setFileList([fileList[fileList.length - 1]]);
     } else {
       setFileList([]);
     }
   };
-  const getFile = (e) => {
+  const getFile = (e:any) => {
     if (Array.isArray(e)) {
       return e;
     }
     return e && e.fileList;
   };
-
-  const onFinish = (value) => {
-    if (value) {
-      value.total = Number(value.total);
-    }
+  const valueEditor = (e:any) => {
+    console.log("e", e);
+    return e.editor.getData();
+  };
+  const onFinish = (value:any) => {
+    props.onRefresh(false);
     message.loading({
       duration: 2,
       content: "Loading",
     });
     if (!props.dataUpdate) {
-      AddProject(value)
+      AddNew(value)
         .then((res) => {
           try {
-            UploadImage(res.data.id, value);
+          UploadImage(res.data?.id,  value )
             message.destroy();
             message.success({
               duration: 4,
-              content: "Thêm dự án thành công",
+              content: "Thêm tin tức thành công",
             });
             props.onvisible(false);
             props.onRefresh(true);
@@ -113,7 +124,7 @@ const InsertUploadProjects = (props) => {
             message.destroy();
             message.error({
               duration: 4,
-              content: "Thêm dự án không thành công",
+              content: "Thêm tin tức không thành công",
             });
           }
         })
@@ -121,7 +132,7 @@ const InsertUploadProjects = (props) => {
           message.destroy();
           message.error({
             duration: 4,
-            content: "Thêm dự án không thành công",
+            content: "Thêm tin tức không thành công",
           });
         });
     } else {
@@ -131,11 +142,11 @@ const InsertUploadProjects = (props) => {
       UpdateProject(props.dataUpdate?.id, value)
         .then((res) => {
           try {
-            UploadImage(res.data.id, value);
+          
             message.destroy();
             message.success({
               duration: 4,
-              content: "Chỉnh sửa dự án thành công",
+              content: "Chỉnh sửa tin tức thành công",
             });
             props.onvisible(false);
             props.onRefresh(true);
@@ -143,7 +154,7 @@ const InsertUploadProjects = (props) => {
             message.destroy();
             message.error({
               duration: 4,
-              content: "Chỉnh sửa dự án không thành công",
+              content: "Chỉnh sửa tin tức không thành công",
             });
           }
         })
@@ -151,7 +162,7 @@ const InsertUploadProjects = (props) => {
           message.destroy();
           message.error({
             duration: 4,
-            content: "Chỉnh sửa dự án không thành công",
+            content: "Chỉnh sửa tin tức không thành công",
           });
         });
     }
@@ -168,10 +179,10 @@ const InsertUploadProjects = (props) => {
   return (
     <Modal
       visible={props.visible}
-      title={props.dataUpdate ? "Chỉnh Sửa dự án" : "Thêm dự án"}
+      title={props.dataUpdate ? "Chỉnh Sửa Tin tức" : "Thêm tin tức"}
       onOk={() => form.submit()}
       onCancel={() => {
-        props.onvisible();
+        props.onvisible(false);
       }}
       width={"60%"}
       centered
@@ -191,70 +202,24 @@ const InsertUploadProjects = (props) => {
           <Row>
             <Col xs={24} sm={24} lg={24} xxl={24} md={24} xl={24}>
               <Form.Item
-                name={"name"}
-                label={"Tên dự án"}
+                name={"title"}
+                label={"chủ đề"}
                 rules={[
                   {
                     required: true,
-                    message: "Hãy nhập tên chủ đầu tư",
+                    message: "Hãy nhập tên chủ đề",
                   },
                 ]}
               >
-                <Input placeholder="Tên chủ đầu tư" />
+                <Input placeholder="Tên chủ đề" />
               </Form.Item>
             </Col>
           </Row>
 
-          {/* <Row gutter={[24, 16]}>
-          <Col span={12}>
-            <Form.Item
-              labelCol={{ lg: 4, sm: 4 }}
-              wrapperCol={{ lg: 4, sm: 4 }}
-              label={"Giá trị"}
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập giá trị",
-                },
-              ]}
-            >
-              <Input placeholder="Giá trị" />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label={"Dự án"}
-              labelCol={32}
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập tên dự án",
-                },
-              ]}
-            >
-              <Input placeholder="Tên dự án " />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Form.Item
-              label={"Mô tả"}
-              labelCol={32}
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập mô tả",
-                },
-              ]}
-            >
-              <TextAr ea />
-            </Form.Item>
-          </Col>
-        </Row> */}
+        
         </Form>
       </div>
-      <div>
+      {/* <div>
         <Form
           onFinish={onFinish}
           form={form}
@@ -291,8 +256,8 @@ const InsertUploadProjects = (props) => {
             </Col>
           </Row>
         </Form>
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         <Form
           labelCol={{ lg: 2, md: 6, sm: 8, xl: 2, xxl: 2, xs: 24 }}
           // wrapperCol={{ lg: 20, md: 18, sm: 16, xs: 24, xl: 21, xxl: 22 }}
@@ -317,45 +282,20 @@ const InsertUploadProjects = (props) => {
             </Col>
           </Row>
         </Form>
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         <Form
           onFinish={onFinish}
           form={form}
           labelCol={{ lg: 4, md: 6, sm: 8, xs: 24 }}
         >
           <Row gutter={[16, 16]}>
+           
             <Col xs={24} sm={24} lg={12} xxl={12} md={24} xl={12}>
-              <Form.Item
-                name={"startDate"}
-                label={"Ngày bắt đầu"}
-                rules={[
-                  {
-                    required: true,
-                    message: "Hãy nhập tên chủ đầu tư",
-                  },
-                ]}
-              >
-                <DatePicker style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col xs={24} sm={24} lg={12} xxl={12} md={24} xl={12}>
-              <Form.Item
-                name={"endDate"}
-                label={"Ngày kết thúc"}
-                rules={[
-                  {
-                    required: true,
-                    message: "Giá trị",
-                  },
-                ]}
-              >
-                <DatePicker style={{ width: "100%" }} />
-              </Form.Item>
             </Col>
           </Row>
         </Form>
-      </div>
+      </div> */}
       <div>
         <Form
           onFinish={onFinish}
@@ -363,58 +303,26 @@ const InsertUploadProjects = (props) => {
           labelCol={{ lg: 4, md: 6, sm: 8, xl: 4, xxl: 4, xs: 24 }}
         >
           <Row gutter={[4, 16]}>
-            <Col xs={24} sm={24} lg={12} xxl={12} md={24} xl={12}>
-              <Form.Item
-                name={"typeContructedId"}
-                label={"Loại"}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Hãy nhập tên chủ đầu tư",
-                //   },
-                // ]}
-              >
-                <Select placeholder="Chọn loại"></Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} sm={24} lg={12} xxl={12} md={24} xl={12}>
-              <Form.Item
-                name={"statusId"}
-                label={"Trạng thái"}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Trạng thái",
-                //   },
-                // ]}
-              >
-                <Select placeholder="Trạng thái"></Select>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-      <div>
-        <Form
-          form={form}
-          onFinish={onFinish}
-          layout="horizontal"
-          labelCol={{ lg: 2, md: 6, sm: 8, xl: 2, xxl: 2, xs: 24 }}
-        >
-          <Row>
-            <Col xs={24} sm={24} lg={24} xxl={24} md={24} xl={24}>
-              <Form.Item
-                name={"description"}
-                label={"Mô tả"}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Hãy nhập mô tả",
-                //   },
-                // ]}
-              >
-                <TextArea />
-              </Form.Item>
+          <Col span={24}>
+            <Form.Item
+              name={"pageContent"}
+              label="Nội dung trang"
+              getValueFromEvent={valueEditor}
+            >
+              <CKEditor name={"editor1"}  config={{
+                 filebrowserImageUploadUrl : 'api/General/UploadFile'
+              }}
+                // onget
+                // onChange={(e) => {
+                //   console.log("dsadsadasdasdasd", e.editor.getData());
+                // }}
+                // onChange={(event, editor) => {
+                //   const data = editor.getData();
+                //   console.log("dsadsadasdasdasd", { event, editor, data });
+                // }}
+                initData=""
+              ></CKEditor>
+            </Form.Item>
             </Col>
           </Row>
         </Form>
@@ -433,12 +341,12 @@ const InsertUploadProjects = (props) => {
                 name={"image"}
                 label={"Mô tả"}
                 getValueFromEvent={getFile}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Hãy nhập mô tả",
-                //   },
-                // ]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Hãy chọn hình ảnh nền",
+                  },
+                ]}
               >
                 <Upload
                   name="avatar"
@@ -456,4 +364,4 @@ const InsertUploadProjects = (props) => {
     </Modal>
   );
 };
-export default InsertUploadProjects;
+export default InsertUploadNews;

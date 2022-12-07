@@ -5,15 +5,14 @@ using System.Collections.Generic;
 
 namespace LDNWebsiteOfficiall.Models
 {
-    public partial class UploadFile
+    public partial class News
     {
         public int Id { get; set; }
-        public string Data { get; set; }
-        public int? IdChecklist { get; set; }
-        public int? IdInsertData { get; set; }
+        public string PageContent { get; set; }
+        public string Title { get; set; }
         public DateTime? CreateDate { get; set; }
+        public string CreateBy { get; set; }
         public DateTime? ModifyDate { get; set; }
         public bool? IsDeleted { get; set; }
-        public bool? IsUse { get; set; }
     }
 }

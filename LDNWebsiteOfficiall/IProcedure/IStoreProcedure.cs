@@ -8,7 +8,9 @@ namespace LDNWebsiteOfficiall.IProcedure
     public interface IStoreProcedure
     {
         string getListMenu { get; }
+        string getListNews { get; }
         string getListProject { get; }
         string getSettingBytype { get; }
+        string getTypeConfig { get; }
     }
 }

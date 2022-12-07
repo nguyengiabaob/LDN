@@ -21,6 +21,7 @@ namespace LDNWebsiteOfficiall.DBContext
         public virtual DbSet<Config> Config { get; set; }
         public virtual DbSet<InsertData> InsertData { get; set; }
         public virtual DbSet<Menus> Menus { get; set; }
+        public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Page> Page { get; set; }
         public virtual DbSet<Permissions> Permissions { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
@@ -62,6 +63,8 @@ namespace LDNWebsiteOfficiall.DBContext
                 entity.Property(e => e.CreateBy).HasMaxLength(50);
 
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.IdInsert).HasColumnName("idInsert");
             });
 
             modelBuilder.Entity<Menus>(entity =>
@@ -73,6 +76,29 @@ namespace LDNWebsiteOfficiall.DBContext
                 entity.Property(e => e.Icon).HasMaxLength(50);
 
                 entity.Property(e => e.Name).HasColumnName("name");
+            });
+
+            modelBuilder.Entity<News>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreateBy)
+                    .HasColumnName("createBy")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnName("createDate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
+
+                entity.Property(e => e.ModifyDate)
+                    .HasColumnName("modifyDate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Title)
+                    .HasColumnName("title")
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Page>(entity =>
@@ -178,6 +204,10 @@ namespace LDNWebsiteOfficiall.DBContext
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.IdInsertData).HasColumnName("idInsertData");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
+
+                entity.Property(e => e.IsUse).HasColumnName("isUse");
 
                 entity.Property(e => e.ModifyDate).HasColumnType("datetime");
             });

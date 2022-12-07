@@ -4,7 +4,7 @@ import Setting from "./views/setting/Setting";
 const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 
 const Pages = React.lazy(() => import("./views/PageModule/Pages"));
-
+const News = React.lazy(() => import("./views/news/ListNews"));
 const Colors = React.lazy(() => import("./views/theme/colors/Colors"));
 const Typography = React.lazy(() =>
   import("./views/theme/typography/Typography")
@@ -83,11 +83,11 @@ const routes = [
   { path: "/home", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
   // { path: "/theme", name: "Theme", component: Colors, exact: true },
-  { path: "/Pages", name: "Pages", component: Pages },
-  { path: "/Menus", name: "Menus", component: Category },
+  { path: "/pages", name: "Pages", component: Pages },
+  { path: "/menus", name: "Menus", component: Category },
   { path: "/projects", name: "projects", component: BrandsS },
   { path: "/setting", name: "setting", component: Setting },
-  { path: "/base/accordion", name: "Accordion", component: Accordion },
+  { path: "/news", name: "News", component: News },
   { path: "/base/breadcrumbs", name: "Breadcrumbs", component: Breadcrumbs },
   { path: "/base/cards", name: "Cards", component: Cards },
   { path: "/base/carousels", name: "Carousel", component: Carousels },

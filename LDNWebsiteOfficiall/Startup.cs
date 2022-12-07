@@ -35,6 +35,7 @@ namespace LDNWebsiteOfficiall
             services.AddTransient<IUploadFile, UploadFile>();
             services.AddTransient<IprojectService, ProjectsService>();
             services.AddTransient<IConfigService, ConfigsService>();
+            services.AddTransient<INewsService, NewsService>();
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory

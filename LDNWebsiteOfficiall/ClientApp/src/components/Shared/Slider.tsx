@@ -1,7 +1,10 @@
 import { Card, Carousel, Image } from "antd";
 import React, { useEffect, useState } from "react";
+import { baseUrl } from "../../Service/Client";
+import { getSetting } from "../../Service/ConfigService";
 const Slider = ()=>{
     const [activeCarousel,setactiveCarousel]= useState<any>();
+    const [ListSlider, setListSlider] = useState<any>([])
     const activeSub= ( active:any, nextActive:any)=>{
         console.log('active',active);
         if(nextActive !=  activeCarousel)
@@ -13,6 +16,15 @@ const Slider = ()=>{
      useEffect(()=>{
         setactiveCarousel(0);
      },[])
+     const getListSlider= async ()=>{
+        let result= await getSetting('slider');
+        if(result && result.data)
+        {
+            console.log('dasdsadLog', result.data);
+            
+            setListSlider(result.data);
+        }
+     }
     const obj= {
         abc: 123,
         bcd: 'dsadsad',
@@ -27,7 +39,12 @@ const Slider = ()=>{
     //      }
       
     //  }
-
+    useEffect(() => {
+      getListSlider()
+    
+     
+    }, [])
+    
     return(
         <div style={{width:'100%', marginTop:'5px', position:'relative'}}>
 
@@ -38,22 +55,19 @@ const Slider = ()=>{
          effect="fade"
          style={{width:'100%'}}
         >
-            <div>
-                    <Image preview={false} height={'700px'} width='100%'  src="/Images/slide1.jpg"/>
+          {
+            ListSlider.length > 0 && ListSlider.map((x:any)=>{
+                return (
+                    <div>
+                    <Image preview={false} height={'700px'} width='100%'  src={`${baseUrl}${x?.img}`}/>
                     <Card className={activeCarousel == 0 ?  'transfer-title active' : 'transfer-title' } style={{ width: 300, marginTop: -400, marginLeft: -40, marginBottom:'80px', backgroundColor:'#deb975'}}>
                         <p>Dự án</p>
+                        <p>{x?.description}</p>
                     </Card>
-            </div>
-            <div>
-                <Image preview={false} height={'700px'} width='100%'  src="/Images/slide2.jpg"/>
-                <Card className={activeCarousel == 1 ?  'transfer-title active' : 'transfer-title' } style={{ width: 300, marginTop: -400, marginLeft: -40, marginBottom:'80px', backgroundColor:'#deb975'}}>
-                        <p>Card content</p>
-                        <p>Card content</p>
-                        <p>Card content</p>
-                </Card>
-            </div>
-            <Image preview={false} height={'700px'} width='100%'  src="/Images/slide2.jpg"/>
-            <Image preview={false} height={'700px'} width='100%'  src="/Images/slide3.jpg"/>
+                    </div>
+                )
+            })
+          }
         </Carousel>
         </div>
 

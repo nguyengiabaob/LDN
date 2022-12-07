@@ -91,14 +91,15 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // POST: api/InsertDatas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<InsertData>> PostInsertData(IFormFile ImgFile)
+        [HttpPost("{id}")]
+        public async Task<ActionResult<InsertData>> PostInsertData(IFormFile ImgFile, int id)
         {
             InsertData insertData = new InsertData();
-            if(insertData!=null)
+            if(insertData!=null && ImgFile !=null)
             {
                 insertData.CreateDate=DateTime.Now;
                 insertData.Data= JsonConvert.SerializeObject(ImgFile);
+                insertData.IdInsert = id;
                 _context.InsertData.Add(insertData);
                 await _context.SaveChangesAsync();
 

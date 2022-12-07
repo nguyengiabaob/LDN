@@ -39,7 +39,7 @@ const _nav = [
   {
     component: CNavItem,
     name: "Menus",
-    to: "/LDN/admin/Menus",
+    to: "/LDN/admin/menus",
     icon: (
       <CIcon
         icon={cilDrop}
@@ -51,7 +51,7 @@ const _nav = [
   {
     component: CNavItem,
     name: "Pages",
-    to: "/LDN/admin/Pages",
+    to: "/LDN/admin/pages",
     icon: (
       <CIcon
         icon={cilDrop}
@@ -63,7 +63,19 @@ const _nav = [
   {
     component: CNavItem,
     name: "Dự án",
-    to: "/LDN/admin/Projects",
+    to: "/LDN/admin/projects",
+    icon: (
+      <CIcon
+        icon={cilDrop}
+        style={{ color: "#000000" }}
+        customClassName="nav-icon"
+      />
+    ),
+  },
+  {
+    component: CNavItem,
+    name: "Tin tức",
+    to: "/LDN/admin/news",
     icon: (
       <CIcon
         icon={cilDrop}
@@ -88,6 +100,7 @@ const _nav = [
       />
     ),
   },
+
   // {
   //   component: CNavItem,
   //   name: 'Typography',

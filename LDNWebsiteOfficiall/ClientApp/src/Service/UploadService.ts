@@ -13,6 +13,6 @@ export const UploadFile = (data: any) => {
 export const getUploadImage = (id: any) => {
   return getApi(`/General/${id}`);
 };
-export const postInsertUpload = (data: any) => {
-  return postApiUpload2(`/InsertDatas`, data);
+export const postInsertUpload = (data: any, id: any) => {
+  return postApiUpload2(`/InsertDatas/${id}`, data);
 };

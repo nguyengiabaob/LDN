@@ -46,14 +46,13 @@ const SettingSilder = (props: props) => {
       console.log("Await", a);
     }
   };
-  useEffect(() => {
-    console.log('dsadasdasdas',props.dataUpdate);
+  useEffect(() => { 
     if(props.dataUpdate)
     {
       let formdata= JSON.parse(props.dataUpdate);
       console.log('dsadasdasdas',formdata);
       
-      form.setFieldsValue(formdata)
+      form.setFieldsValue({Silder:formdata.Silder})
     }
   
    
@@ -95,23 +94,12 @@ const SettingSilder = (props: props) => {
     let Arrayupload:any[]= [];
       console.log('Value', value);
       let newData= {...value}; 
+      const {Upload} = newData;
+      delete newData.Upload
+   
       if(newData)
       {
-        newData?.Silder.forEach((x:any)=>{
-        if(x.Upload)
-        {
-          Arrayupload.push({...x.Upload[0]});
-          x.Upload = {
-            uid: x.Upload[0].originFileObj.uid,
-            name: x.Upload[0].originFileObj.name,
-            type :  x.Upload[0].originFileObj.type,
-          };
-        }
-        })
-      }
-      console.log('Value', JSON.stringify(newData));
-      console.log('Value', value);
-            let dataJson = JSON.stringify(newData);
+              let dataJson = JSON.stringify(newData);
             if(value)
             {
               let resultPostSetting =  await  PostSetting({
@@ -119,13 +107,13 @@ const SettingSilder = (props: props) => {
                 ,data:dataJson
                 
               });
-              if(resultPostSetting.data && resultPostSetting && Arrayupload.length>0)
+              if(resultPostSetting.data && resultPostSetting && Upload.length>0)
               {
-                console.log('dsadsadasdAAAA',Arrayupload);
+                console.log('dsadsadasdAAAA',Upload);
                 
                 try
                 {
-                  await  UploadImage(resultPostSetting.data?.id,Arrayupload);
+                  await  UploadImage(resultPostSetting.data?.id,Upload);
                   message.success({
                     content:'Tạo cấu hình  thành công',
                     duration:2,
@@ -151,6 +139,11 @@ const SettingSilder = (props: props) => {
 
               })
             }
+      }
+   
+      // console.log('Value', JSON.stringify(newData));
+      // console.log('Value', value);
+     
         
       
 
@@ -168,17 +161,12 @@ const SettingSilder = (props: props) => {
       }}
     >
       <Form form={form}  onFinish={onFinish}>
-        <Form.List   name={"Silder"}>
-          {(fields, { add, remove }) => {
-            return (
-              <>
-                {fields.map((field: any) => (
-                  <>
+      
                     <Row>
                       <Col  lg={12}>
                         <Form.Item
-                      {...field}
-                      name={[field.name, 'page']}
+                      
+                      name={'page'}
                         >
                           <Select placeholder="Chọn trang chi tiết cho sidler">
                             {PagesList.length > 0 &&
@@ -192,8 +180,8 @@ const SettingSilder = (props: props) => {
                     <Row>
                       <Col lg={12}>
                         <Form.Item   
-                        {...field}
-                        name={[field.name, 'description']}
+                    
+                        name={ 'description'}
                         >
                           <TextArea placeholder="Thông tin mô tả dự án"></TextArea>
                         </Form.Item>
@@ -202,8 +190,8 @@ const SettingSilder = (props: props) => {
                     <Row>
                       <Col>
                         <Form.Item
-                           {...field}
-                           name={[field.name, 'Upload']}
+                       
+                           name={ 'Upload'}
                            valuePropName="fileList"
                            getValueFromEvent={getFile}
                         >
@@ -214,33 +202,15 @@ const SettingSilder = (props: props) => {
                                  className="avatar-uploader"
                                  onChange={handleChange}
                                >
-                                 {form.getFieldsValue().Silder?.[field.key]?.Upload ? null : uploadButton}
+                                 { fileList.length >=1 ? null : uploadButton}
                           </Upload>
                         </Form.Item>
                       </Col>
                     </Row>
-                  </>
-                ))}
+                
 
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      console.log('dsadsadsa',form.getFieldsValue());
-                      
-                      setFileList([])
-                      add();
-                    }}
-                    block
-                    icon={<PlusOutlined />}
-                  >
-                    Add sights
-                  </Button>
-                </Form.Item>
-              </>
-            );
-          }}
-        </Form.List>
+      
+   
       </Form>
     </Modal>
   );

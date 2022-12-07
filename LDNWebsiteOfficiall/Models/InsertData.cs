@@ -9,6 +9,7 @@ namespace LDNWebsiteOfficiall.Models
     {
         public int Id { get; set; }
         public string Data { get; set; }
+        public int? IdInsert { get; set; }
         public DateTime? CreateDate { get; set; }
         public string CreateBy { get; set; }
     }

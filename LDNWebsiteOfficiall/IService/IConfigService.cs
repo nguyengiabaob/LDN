@@ -9,6 +9,6 @@ namespace LDNWebsiteOfficiall.IService
 {
     public interface IConfigService
     {
-        Task<IEnumerable<Config>> getSettingByType(string type);
+        Task<IEnumerable<dynamic>> getSettingByType(string type);
     }
 }

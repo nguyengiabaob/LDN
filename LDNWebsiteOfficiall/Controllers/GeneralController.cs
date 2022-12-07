@@ -37,7 +37,7 @@ namespace LDNWebsiteOfficiall.Controllers
         {
             try
             {
-                var Image = _LDNWebisteContext.UploadFile.Where(p => p.IdChecklist == id).FirstOrDefault();
+                var Image = _LDNWebisteContext.UploadFile.Where(p => p.IdChecklist == id && p.IsUse != false ).FirstOrDefault();
                 if (Image != null)
                 {
                     var path= Image.Data.Replace("\"", "/");
@@ -57,6 +57,12 @@ namespace LDNWebsiteOfficiall.Controllers
         [HttpPost("UploadFile")]
         public async Task<IActionResult> UploadFile([FromForm]UploadViewModel ImgFile)
         {
+            var UploadExist = _LDNWebisteContext.UploadFile.Where(p=>p.IdChecklist == ImgFile.IdChecklist).FirstOrDefault();
+             if(UploadExist != null)
+            {
+              UploadExist.IsUse = false;
+                
+            }
             string a = await _UploadFile.SaveImage(ImgFile.Upload);
             if(a != "")
             {
