@@ -18,6 +18,7 @@ namespace LDNWebsiteOfficiall.DBContext
         {
         }
 
+        public virtual DbSet<AccountUser> AccountUser { get; set; }
         public virtual DbSet<Config> Config { get; set; }
         public virtual DbSet<InsertData> InsertData { get; set; }
         public virtual DbSet<Menus> Menus { get; set; }
@@ -33,6 +34,25 @@ namespace LDNWebsiteOfficiall.DBContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AccountUser>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Avatar).HasColumnName("avatar");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnName("createDate")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
+
+                entity.Property(e => e.Password).HasColumnName("password");
+
+                entity.Property(e => e.Username)
+                    .HasColumnName("username")
+                    .HasMaxLength(50);
+            });
+
             modelBuilder.Entity<Config>(entity =>
             {
                 entity.ToTable("Config", "Setting");
