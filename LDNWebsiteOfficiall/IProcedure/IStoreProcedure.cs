@@ -12,5 +12,6 @@ namespace LDNWebsiteOfficiall.IProcedure
         string getListProject { get; }
         string getSettingBytype { get; }
         string getTypeConfig { get; }
+        string getFields { get;}
     }
 }

@@ -19,6 +19,7 @@ namespace LDNWebsiteOfficiall.DBContext
         }
 
         public virtual DbSet<AccountUser> AccountUser { get; set; }
+        public virtual DbSet<ActivityFields> ActivityFields { get; set; }
         public virtual DbSet<Config> Config { get; set; }
         public virtual DbSet<InsertData> InsertData { get; set; }
         public virtual DbSet<Menus> Menus { get; set; }
@@ -50,6 +51,29 @@ namespace LDNWebsiteOfficiall.DBContext
 
                 entity.Property(e => e.Username)
                     .HasColumnName("username")
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<ActivityFields>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Content).HasColumnName("content");
+
+                entity.Property(e => e.CreateBy)
+                    .HasColumnName("createBy")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnName("createDate")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Image).HasColumnName("image");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
                     .HasMaxLength(50);
             });
 

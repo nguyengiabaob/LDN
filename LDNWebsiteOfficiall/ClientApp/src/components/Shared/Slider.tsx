@@ -60,9 +60,10 @@ const Slider = ()=>{
                 return (
                     <div>
                     <Image preview={false} height={'700px'} width='100%'  src={`${baseUrl}${x?.img}`}/>
-                    <Card className={activeCarousel == 0 ?  'transfer-title active' : 'transfer-title' } style={{ width: 300, marginTop: -400, marginLeft: -40, marginBottom:'80px', backgroundColor:'#deb975'}}>
-                        <p>Dự án</p>
-                        <p>{x?.description}</p>
+                    <Card className={activeCarousel == 0 ?  'transfer-title active  dash-card' : 'transfer-title '  } style={{ width: 300, marginTop: -400, marginLeft: -40, marginBottom:'80px', backgroundColor:'#deb975'}}>
+                        <p className="dash-title-card">Dự án</p>
+                        <p >{x?.description}</p>
+
                     </Card>
                     </div>
                 )

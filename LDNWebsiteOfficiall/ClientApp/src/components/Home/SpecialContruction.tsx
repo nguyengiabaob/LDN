@@ -1,7 +1,7 @@
 import { Col, Row, Typography } from "antd";
 import React, { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Card } from "reactstrap";
-const SpecialConstruction = ()=> {
+const    SpecialConstruction = ()=> {
     const myref =  useRef<HTMLDivElement>(null);
     const [scrollTop,setScrollTop]= useState(0);
     const {Title}= Typography;

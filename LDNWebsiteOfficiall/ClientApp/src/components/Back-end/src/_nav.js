@@ -74,6 +74,18 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: "Lĩnh vực hoạt động",
+    to: "/LDN/admin/activityFields",
+    icon: (
+      <CIcon
+        icon={cilDrop}
+        style={{ color: "#000000" }}
+        customClassName="nav-icon"
+      />
+    ),
+  },
+  {
+    component: CNavItem,
     name: "Tin tức",
     to: "/LDN/admin/news",
     icon: (

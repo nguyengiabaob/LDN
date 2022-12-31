@@ -5,6 +5,9 @@ const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 
 const Pages = React.lazy(() => import("./views/PageModule/Pages"));
 const News = React.lazy(() => import("./views/news/ListNews"));
+const ActivityFields = React.lazy(() =>
+  import("./views/ActivityFields/ActivityFields")
+);
 const Colors = React.lazy(() => import("./views/theme/colors/Colors"));
 const Typography = React.lazy(() =>
   import("./views/theme/typography/Typography")
@@ -88,7 +91,11 @@ const routes = [
   { path: "/projects", name: "projects", component: BrandsS },
   { path: "/setting", name: "setting", component: Setting },
   { path: "/news", name: "News", component: News },
-  { path: "/base/breadcrumbs", name: "Breadcrumbs", component: Breadcrumbs },
+  {
+    path: "/activityFields",
+    name: "activityFields",
+    component: ActivityFields,
+  },
   { path: "/base/cards", name: "Cards", component: Cards },
   { path: "/base/carousels", name: "Carousel", component: Carousels },
   { path: "/base/collapses", name: "Collapse", component: Collapses },

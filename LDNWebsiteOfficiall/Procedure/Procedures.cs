@@ -12,6 +12,6 @@ namespace LDNWebsiteOfficiall.Procedure
         public string getListProject => "Project_getProjects";
         public string getSettingBytype => "getSettingBytype";
         public string getTypeConfig => "getTypeConfig";
-
+        public string getFields => "Fields_GetFields";
     }
 }

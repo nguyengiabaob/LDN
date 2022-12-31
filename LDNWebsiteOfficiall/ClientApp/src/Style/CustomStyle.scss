@@ -192,7 +192,7 @@ body,html {
     display:flex;
     flex-direction:column;
     align-items:center;
-    background-image: url('https://deltagroup.vn/wp-content/uploads/2020/07/Capture6.png');
+    background-image: url('/Images/Capture6.png');
     background-repeat: no-repeat;
     background-size: cover;
     & .ant-row
@@ -429,6 +429,30 @@ body,html {
     }
      
 }
+
+// dashboard
+.dash-card
+{
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+   .ant-card-body
+   {
+    padding: 10px 22px 10px 22px !important
+   };
+}
+.dash-title-card
+{
+    font-weight: 600;
+    font-size: 20px;
+    color: #FFFF;
+}
+
+
+
+
+
+
+
 
 
 

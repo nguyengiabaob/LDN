@@ -19,6 +19,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[ActivityFields]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Menus]",
          "ObjectType": 0
       },
