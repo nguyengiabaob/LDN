@@ -12,6 +12,7 @@ import {
 } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import React, { useState, useEffect } from "react";
+import IsMobileDevice from "../../../../../GeneralFunction/GeneralFunction";
 import { baseUrl } from "../../../../../Service/Client";
 import {
   AddProject,
@@ -25,6 +26,8 @@ import {
 const InsertUploadProjects = (props) => {
   const [imageUrl, setImageUrl] = useState();
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token") ?? "";
+  const IsMobile = IsMobileDevice();
   const [form] = useForm();
   const [fileList, setFileList] = useState([]);
   const UploadImage = async (id, value) => {
@@ -33,7 +36,11 @@ const InsertUploadProjects = (props) => {
       let a = await Promise.all(
         value.image.map(async (x) => {
           console.log("dasdasIMAGE", x.originFileObj);
-          let insertDataUpload = await postInsertUpload(x.originFileObj, id);
+          let insertDataUpload = await postInsertUpload(
+            id,
+            token,
+            x.originFileObj
+          );
           console.log("Image", x.originFileObj);
           if (insertDataUpload) {
             let file = {
@@ -41,7 +48,7 @@ const InsertUploadProjects = (props) => {
               idChecklist: id,
               upload: x.originFileObj,
             };
-            await UploadFile(file);
+            await UploadFile(token, file);
           }
         })
       );
@@ -98,7 +105,7 @@ const InsertUploadProjects = (props) => {
       content: "Loading",
     });
     if (!props.dataUpdate) {
-      AddProject(value)
+      AddProject(token, value)
         .then((res) => {
           try {
             UploadImage(res.data.id, value);
@@ -128,7 +135,7 @@ const InsertUploadProjects = (props) => {
       if (props.dataUpdate?.id) {
         value.id = props.dataUpdate?.id;
       }
-      UpdateProject(props.dataUpdate?.id, value)
+      UpdateProject(props.dataUpdate?.id, token, value)
         .then((res) => {
           try {
             UploadImage(res.data.id, value);
@@ -173,7 +180,7 @@ const InsertUploadProjects = (props) => {
       onCancel={() => {
         props.onvisible();
       }}
-      width={"60%"}
+      width={IsMobile ? "90%" : "60%"}
       centered
       closable={false}
       /* style={{ marginLeft: "259px" }} */

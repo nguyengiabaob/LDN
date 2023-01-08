@@ -1,8 +1,9 @@
-import { Button, Card, message, Modal, Table } from "antd";
+import { Button, Card, message, Modal, Space, Table } from "antd";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { MdDeleteOutline } from "react-icons/md";
+import IsMobileDevice from "../../../../../../GeneralFunction/GeneralFunction";
 import { baseUrl } from "../../../../../../Service/Client";
 import { getSetting } from "../../../../../../Service/ConfigService";
 import { getUploadImage } from "../../../../../../Service/UploadService";
@@ -17,6 +18,7 @@ const ListSilder = (props:props) => {
   const [visible, setVisible] = useState(false);
   const [Slider, setSlider] = useState();
   const [refresh, setRefresh] = useState(true);
+  const IsMobile = IsMobileDevice();
   const columns = [
     {
       title: "Thông tin mô tả ",
@@ -34,7 +36,7 @@ const ListSilder = (props:props) => {
       key: "Action",
       render: (value: any, row: any) => {
         return (
-          <div>
+          <Space direction="horizontal">
             <Button
               onClick={async () => {
                 let dataRow = row;
@@ -55,13 +57,17 @@ const ListSilder = (props:props) => {
                         Arrpath[Arrpath.length - 1]
                       }`;
 
-                    dataRow.image = [
-                      {
-                        url: path,
-                      },
-                    ];
+                    dataRow.Upload =
+                    [
+                        {
+                          url: path,
+                        },
+                      ]
+                    
                   }
                 }
+                console.log('dasdasds',dataRow);
+                
                 setSlider(dataRow);
                 setRefresh(false);
                 setVisible(true);
@@ -78,7 +84,7 @@ const ListSilder = (props:props) => {
             >
               <MdDeleteOutline color="red" size={28} />
             </Button>
-          </div>
+          </Space>
         );
       },
     },
@@ -124,7 +130,7 @@ const ListSilder = (props:props) => {
   };
   return (
     <>
-    <Modal width={"70%"} zIndex={1066} centered onCancel={()=>props.onCancel(false)} open={props.openModal}>
+    <Modal width={IsMobile ?"90%":"70%"} zIndex={1066} centered onCancel={()=>props.onCancel(false)} open={props.openModal}>
       <div>
         <Card style={{ padding: "0px 5px 0px 5px", position: "relative" }}>
           <div

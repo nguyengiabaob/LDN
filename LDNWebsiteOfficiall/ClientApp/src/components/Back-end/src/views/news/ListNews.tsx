@@ -14,6 +14,7 @@ const ListNews = () => {
   const [visible, setVisible] = useState(false);
   const [news, setNews] = useState ();
   const [refresh, setRefresh] = useState(true);
+  const token= localStorage.getItem('token') ?? "";
   const columns = [
     {
       title: "Tiêu đề",
@@ -107,7 +108,7 @@ const ListNews = () => {
       duration: 5,
       content: "Loading",
     });
-    DeleteNews(id)
+    DeleteNews(token,id)
       .then((res) => {
         message.destroy();
         message.success({

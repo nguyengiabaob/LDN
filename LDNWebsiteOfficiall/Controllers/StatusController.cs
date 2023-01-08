@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -45,13 +46,22 @@ namespace LDNWebsiteOfficiall.Controllers
         // PUT: api/Status/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStatus(long id, Status status)
+        public async Task<IActionResult> PutStatus(long id,string token, Status status)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
+
             if (id != status.Id)
             {
                 return BadRequest();
             }
-
+         
             _context.Entry(status).State = EntityState.Modified;
 
             try
@@ -76,8 +86,16 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/Status
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Status>> PostStatus(Status status)
+        public async Task<ActionResult<Status>> PostStatus(string token, Status status)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             _context.Status.Add(status);
             await _context.SaveChangesAsync();
 
@@ -86,8 +104,16 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // DELETE: api/Status/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStatus(long id)
+        public async Task<IActionResult> DeleteStatus(string token,long id)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             var status = await _context.Status.FindAsync(id);
             if (status == null)
             {

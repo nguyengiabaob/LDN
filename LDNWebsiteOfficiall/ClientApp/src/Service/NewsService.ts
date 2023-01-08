@@ -9,12 +9,12 @@ export const getNewsDetail = (id: any) => {
 export const getNewsHaveImage = () => {
   return getApi("/News/ListNews");
 };
-export const AddNew = (data: any) => {
-  return postApi(`/News`, data);
+export const AddNew = (token: string, data: any) => {
+  return postApi(`/News?token=${token}`, data);
 };
-export const UpdateNews = (id: string, data: any) => {
-  return putApi(`/News/${id}`, data);
+export const UpdateNews = (id: string, token: string, data: any) => {
+  return putApi(`/News/${id}?token=${token}`, data);
 };
-export const DeleteNews = (id: string) => {
-  return deleteApi(`/News/${id}`);
+export const DeleteNews = (token: string, id: string) => {
+  return deleteApi(`/News/${id}?token=${token}`);
 };

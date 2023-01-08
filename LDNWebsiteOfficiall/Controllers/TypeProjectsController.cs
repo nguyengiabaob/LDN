@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -45,13 +46,21 @@ namespace LDNWebsiteOfficiall.Controllers
         // PUT: api/TypeProjects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeProject(long id, TypeProject typeProject)
+        public async Task<IActionResult> PutTypeProject(long id, string token, TypeProject typeProject)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             if (id != typeProject.Id)
             {
                 return BadRequest();
             }
-
+            typeProject.CreateDate= DateTime.Now;
             _context.Entry(typeProject).State = EntityState.Modified;
 
             try
@@ -76,8 +85,17 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/TypeProjects
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TypeProject>> PostTypeProject(TypeProject typeProject)
+        public async Task<ActionResult<TypeProject>> PostTypeProject(string token, TypeProject typeProject)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
+            typeProject.CreateDate= DateTime.Now;
             _context.TypeProject.Add(typeProject);
             await _context.SaveChangesAsync();
 
@@ -86,8 +104,16 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // DELETE: api/TypeProjects/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeProject(long id)
+        public async Task<IActionResult> DeleteTypeProject(string token,long id)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             var typeProject = await _context.TypeProject.FindAsync(id);
             if (typeProject == null)
             {

@@ -1,14 +1,18 @@
-import { Card } from "antd";
+import { Card, Space } from "antd";
 import React, { useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import ListItemSetting from "./ListItemSetting";
+import ListSettingIntroduction from "./introduction/ListSettingIntroduction";
+import IsMobileDevice from "../../../../../GeneralFunction/GeneralFunction";
 
 const Setting = () => {
   const [visible, setVisible] = useState(false);
+  const [visibleIntroduction, setVisibleIntroduction] = useState(false);
+  const IsMobile = IsMobileDevice();
   return (
-    <div>
+    <Space direction="vertical" style={{ width: "100%" }}>
       <Card
-        style={{ borderRadius: "8px" }}
+        style={{ borderRadius: "8px", width: "100%" }}
         // extra={
         //   <div>
         //     <SettingOutlined size={50} />
@@ -54,7 +58,7 @@ const Setting = () => {
             <AiOutlineSetting
               className="ldn-icon-hover"
               onClick={() => {
-                setVisible(true);
+                setVisibleIntroduction(true);
               }}
               size={32}
             />
@@ -66,7 +70,12 @@ const Setting = () => {
         onVisible={setVisible}
         name={"trang chủ"}
       />
-    </div>
+      <ListSettingIntroduction
+        visible={visibleIntroduction}
+        onVisible={setVisibleIntroduction}
+        name="Giới thiệu"
+      />
+    </Space>
   );
 };
 export default Setting;

@@ -16,6 +16,7 @@ const Projects = () => {
   const [visible, setVisible] = useState(false);
   const [Project, setProject] = useState();
   const [refresh, setRefresh] = useState(true);
+  const token = localStorage.getItem("token") ?? "";
   const columns = [
     {
       title: "Chủ đầu tư",
@@ -115,7 +116,7 @@ const Projects = () => {
       duration: 5,
       content: "Loading",
     });
-    DeleteProject(id)
+    DeleteProject(token, id)
       .then((res) => {
         message.destroy();
         message.success({

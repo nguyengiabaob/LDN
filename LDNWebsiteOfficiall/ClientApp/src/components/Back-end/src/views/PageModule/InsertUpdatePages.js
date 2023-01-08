@@ -7,6 +7,7 @@ import { TransferValueObject } from "../../../../../GeneralFunction/GeneralFunct
 import { getListMenu } from "../../../../../Service/MenuService";
 import { AddPage, UpdatePage } from "../../../../../Service/PageService";
 const InsertUpdateMPages = (props) => {
+  const token = localStorage.getItem("token") ?? "";
   const [ListMenus, setListMenu] = useState([]);
   const getMenus = () => {
     getListMenu().then((res) => {
@@ -30,7 +31,7 @@ const InsertUpdateMPages = (props) => {
       content: "loading",
     });
     if (!props.dataUpdate) {
-      AddPage(TransferValueObject(value))
+      AddPage(token, TransferValueObject(value))
         .then((res) => {
           CancelModal();
 
@@ -53,7 +54,7 @@ const InsertUpdateMPages = (props) => {
         });
     } else {
       value.id = props.dataUpdate.id;
-      UpdatePage(props.dataUpdate.id, TransferValueObject(value))
+      UpdatePage(props.dataUpdate.id, token, TransferValueObject(value))
         .then((res) => {
           CancelModal();
           form.resetFields();

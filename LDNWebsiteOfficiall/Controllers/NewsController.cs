@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
 using LDNWebsiteOfficiall.IService;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -51,13 +52,22 @@ namespace LDNWebsiteOfficiall.Controllers
         // PUT: api/News/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNews(int id, News news)
+        public async Task<IActionResult> PutNews(int id, string token, News news)
         {
+
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             if (id != news.Id)
             {
                 return BadRequest();
             }
-
+            news.CreateBy = username;
             _context.Entry(news).State = EntityState.Modified;
 
             try
@@ -82,8 +92,17 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/News
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<News>> PostNews(News news)
+        public async Task<ActionResult<News>> PostNews(string token ,News news)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
+            news.CreateBy= username;
             _context.News.Add(news);
             try
             {
@@ -106,8 +125,16 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // DELETE: api/News/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNews(int id)
+        public async Task<IActionResult> DeleteNews(int id, string token)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+          
             var news = await _context.News.FindAsync(id);
             if (news == null)
             {

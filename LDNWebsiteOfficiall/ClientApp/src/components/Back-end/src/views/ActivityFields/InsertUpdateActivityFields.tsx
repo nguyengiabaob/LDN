@@ -35,13 +35,14 @@ const  InsertUpdateActivityFields= (props:props) => {
   const [loading, setLoading] = useState(false);
   const [form] = useForm();
   const [fileList, setFileList] = useState<any>([]);
+  const token= localStorage.getItem('token') ?? "";
   const UploadImage = async (id:any, value:any) => {
     if (value.image) {
       console.log("dasdas", value.image);
       let a = await Promise.all(
         value.image.map(async (x:any) => {
           console.log("dasdasIMAGE", x.originFileObj);
-          let insertDataUpload = await postInsertUpload(x.originFileObj,id);
+          let insertDataUpload = await postInsertUpload(id, token,x.originFileObj);
           console.log("Image", x.originFileObj);
           if (insertDataUpload) {
             let file = {
@@ -49,7 +50,7 @@ const  InsertUpdateActivityFields= (props:props) => {
               idChecklist: id,
               upload: x.originFileObj,
             };
-            await UploadFile(file);
+            await UploadFile(token,file);
           }
         })
       );
@@ -110,7 +111,7 @@ const  InsertUpdateActivityFields= (props:props) => {
       content: "Loading",
     });
     if (!props.dataUpdate) {
-      AddNew(value)
+      AddNew(token,value)
         .then((res) => {
           try {
           UploadImage(res.data?.id,  value )
@@ -140,7 +141,7 @@ const  InsertUpdateActivityFields= (props:props) => {
       if (props.dataUpdate?.id) {
         value.id = props.dataUpdate?.id;
       }
-      Updatefield(props.dataUpdate?.id, value)
+      Updatefield(props.dataUpdate?.id,token, value)
         .then((res) => {
           try {
           

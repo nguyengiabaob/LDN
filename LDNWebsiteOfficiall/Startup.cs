@@ -3,6 +3,7 @@ using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Helper;
 using LDNWebsiteOfficiall.IProcedure;
 using LDNWebsiteOfficiall.IService;
+using LDNWebsiteOfficiall.MiddleAware;
 using LDNWebsiteOfficiall.Procedure;
 using LDNWebsiteOfficiall.Service;
 using Microsoft.AspNetCore.Builder;
@@ -58,8 +59,9 @@ namespace LDNWebsiteOfficiall
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            
             app.UseHttpsRedirection();
+           
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -83,4 +85,13 @@ namespace LDNWebsiteOfficiall
             });
         }
     }
+
+    //public static class APiAuthAppBuilderExtensions
+    //{
+    //    public static IApplicationBuilder UseApiMiddleWare(
+    //        this IApplicationBuilder builder)
+    //    {
+    //        return builder.UseMiddleware<ApiMiddleWare>();
+    //    }
+    //}
 }

@@ -1,6 +1,7 @@
 import { Card, Modal } from "antd";
 import React, { useState, useEffect } from "react";
 import { GiSettingsKnobs } from "react-icons/gi";
+import IsMobileDevice from "../../../../../GeneralFunction/GeneralFunction";
 import { getSetting } from "../../../../../Service/ConfigService";
 import ListSilder from "./Silder/ListSilder";
 import SettingSilder from "./Silder/SettingSilder";
@@ -8,6 +9,7 @@ import SettingSilder from "./Silder/SettingSilder";
 const ListItemSetting = (props) => {
   const [visible, setVisible] = useState(false);
   const [formSetting, setFormSetting] = useState();
+  const IsMobile = IsMobileDevice();
   const getFormSetting = async () => {
     const result = await getSetting("slider");
     if (result && result.data) {
@@ -23,7 +25,7 @@ const ListItemSetting = (props) => {
     <Modal
       visible={props.visible}
       title={`Danh sách các phần của trang ${props.name}`}
-      width={"60%"}
+      width={IsMobile ? "90%" : "60%"}
       centered
       footer={<></>}
       onCancel={() => {

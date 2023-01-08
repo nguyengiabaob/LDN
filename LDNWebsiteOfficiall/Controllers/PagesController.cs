@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -45,13 +46,22 @@ namespace LDNWebsiteOfficiall.Controllers
         // PUT: api/Pages/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPage(int id, Page page)
+        public async Task<IActionResult> PutPage(int id, string token, Page page)
+
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             if (id != page.Id)
             {
                 return BadRequest();
             }
-
+            page.CreateBy =username;
             _context.Entry(page).State = EntityState.Modified;
 
             try
@@ -76,8 +86,17 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/Pages
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Page>> PostPage(Page page)
+        public async Task<ActionResult<Page>> PostPage( string token,Page page)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
+            page.CreateBy= username;
             _context.Page.Add(page);
             try
             {
@@ -100,8 +119,16 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // DELETE: api/Pages/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePage(int id)
+        public async Task<IActionResult> DeletePage(int id, string token)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             var page = await _context.Page.FindAsync(id);
             if (page == null)
             {

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
 using Newtonsoft.Json;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -37,12 +38,12 @@ namespace LDNWebsiteOfficiall.Controllers
             {
                 return NotFound();
             }
-            if(insertData.Data!=null)
+            if (insertData.Data != null)
             {
                 var a = JsonConvert.DeserializeObject<dynamic>(insertData.Data);
                 return a;
             }
-            return null ;
+            return null;
         }
         // GET: api/InsertDatas/5
         [HttpGet("{id}")]
@@ -92,26 +93,43 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/InsertDatas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("{id}")]
-        public async Task<ActionResult<InsertData>> PostInsertData(IFormFile ImgFile, int id)
+        public async Task<ActionResult<InsertData>> PostInsertData(int id, string token, IFormFile ImgFile)
         {
-            InsertData insertData = new InsertData();
-            if(insertData!=null && ImgFile !=null)
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
             {
-                insertData.CreateDate=DateTime.Now;
-                insertData.Data= JsonConvert.SerializeObject(ImgFile);
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
+            InsertData insertData = new InsertData();
+            if (insertData != null && ImgFile != null)
+            {
+                insertData.CreateBy = username;
+                insertData.CreateDate = DateTime.Now;
+                insertData.Data = JsonConvert.SerializeObject(ImgFile);
                 insertData.IdInsert = id;
                 _context.InsertData.Add(insertData);
                 await _context.SaveChangesAsync();
 
                 return CreatedAtAction("GetInsertData", new { id = insertData.Id }, insertData);
             }
-           return BadRequest();
+            return BadRequest();
         }
 
         // DELETE: api/InsertDatas/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteInsertData(int id)
+        public async Task<IActionResult> DeleteInsertData(string token, int id)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             var insertData = await _context.InsertData.FindAsync(id);
             if (insertData == null)
             {

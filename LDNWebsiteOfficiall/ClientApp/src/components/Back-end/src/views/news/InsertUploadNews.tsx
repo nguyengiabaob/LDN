@@ -13,6 +13,7 @@ import {
 import { useForm } from "antd/lib/form/Form";
 import { CKEditor, useCKEditor } from "ckeditor4-react";
 import React, { useState, useEffect } from "react";
+import IsMobileDevice from "../../../../../GeneralFunction/GeneralFunction";
 import { baseUrl } from "../../../../../Service/Client";
 import { AddNew } from "../../../../../Service/NewsService";
 import {
@@ -32,6 +33,7 @@ interface props {
 const  InsertUploadNews= (props:props) => {
   const [imageUrl, setImageUrl] = useState();
   const [loading, setLoading] = useState(false);
+  const token= localStorage.getItem('token') ?? "";
   const [form] = useForm();
   const [fileList, setFileList] = useState<any>([]);
   const UploadImage = async (id:any, value:any) => {
@@ -39,8 +41,8 @@ const  InsertUploadNews= (props:props) => {
       console.log("dasdas", value.image);
       let a = await Promise.all(
         value.image.map(async (x:any) => {
-          console.log("dasdasIMAGE", x.originFileObj);
-          let insertDataUpload = await postInsertUpload(x.originFileObj,id);
+      
+          let insertDataUpload = await postInsertUpload(id,token,x.originFileObj);
           console.log("Image", x.originFileObj);
           if (insertDataUpload) {
             let file = {
@@ -48,7 +50,7 @@ const  InsertUploadNews= (props:props) => {
               idChecklist: id,
               upload: x.originFileObj,
             };
-            await UploadFile(file);
+            await UploadFile(token,file);
           }
         })
       );
@@ -109,7 +111,7 @@ const  InsertUploadNews= (props:props) => {
       content: "Loading",
     });
     if (!props.dataUpdate) {
-      AddNew(value)
+      AddNew(token,value)
         .then((res) => {
           try {
           UploadImage(res.data?.id,  value )
@@ -139,7 +141,7 @@ const  InsertUploadNews= (props:props) => {
       if (props.dataUpdate?.id) {
         value.id = props.dataUpdate?.id;
       }
-      UpdateProject(props.dataUpdate?.id, value)
+      UpdateProject(props.dataUpdate?.id, token,value)
         .then((res) => {
           try {
           
@@ -170,6 +172,7 @@ const  InsertUploadNews= (props:props) => {
   let a = "Tên chủ đầu tư";
   console.log(a.length);
   const { TextArea } = Input;
+  const IsMobile = IsMobileDevice();
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -184,7 +187,7 @@ const  InsertUploadNews= (props:props) => {
       onCancel={() => {
         props.onvisible(false);
       }}
-      width={"60%"}
+      width={IsMobile ?"90%" : "60%"}
       centered
       closable={false}
       /* style={{ marginLeft: "259px" }} */

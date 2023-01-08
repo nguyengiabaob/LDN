@@ -7,12 +7,12 @@ import {
   putApi,
 } from "./Client";
 
-export const UploadFile = (data: any) => {
-  return postApiUpload(`/General/UploadFile`, data);
+export const UploadFile = (token: string, data: any) => {
+  return postApiUpload(`/General/UploadFile?token=${token}`, data);
 };
 export const getUploadImage = (id: any) => {
   return getApi(`/General/${id}`);
 };
-export const postInsertUpload = (data: any, id: any) => {
-  return postApiUpload2(`/InsertDatas/${id}`, data);
+export const postInsertUpload = (id: any, token: string, data: any) => {
+  return postApiUpload2(`/InsertDatas/${id}?token=${token}`, data);
 };

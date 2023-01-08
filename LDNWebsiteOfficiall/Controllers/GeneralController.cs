@@ -1,5 +1,6 @@
 ﻿using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.IService;
+using LDNWebsiteOfficiall.MiddleAware;
 using LDNWebsiteOfficiall.Models;
 using LDNWebsiteOfficiall.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ namespace LDNWebsiteOfficiall.Controllers
     [ApiController]
     public class GeneralController : ControllerBase
     {
+      
         private readonly IUploadFile _UploadFile;
         private readonly LDNWebisteContext _LDNWebisteContext;
         public GeneralController( IUploadFile uploadFile, LDNWebisteContext ldnWebisteContext)
@@ -55,8 +57,16 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // POST api/<GeneralController>
         [HttpPost("UploadFile")]
-        public async Task<IActionResult> UploadFile([FromForm]UploadViewModel ImgFile)
+        public async Task<IActionResult> UploadFile(string token ,[FromForm]UploadViewModel ImgFile)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _LDNWebisteContext.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             var UploadExist = _LDNWebisteContext.UploadFile.Where(p=>p.IdChecklist == ImgFile.IdChecklist).FirstOrDefault();
              if(UploadExist != null)
             {
@@ -69,6 +79,7 @@ namespace LDNWebsiteOfficiall.Controllers
                 try
                 {
                     UploadFile file= new UploadFile();
+                   
                     file.CreateDate =DateTime.Now;
                     file.IdChecklist = ImgFile.IdChecklist;
                     file.IdInsertData= ImgFile.idInsertData;

@@ -13,6 +13,7 @@ const ActivityFields = () => {
   const [visible, setVisible] = useState(false);
   const [Project, setProject] = useState();
   const [refresh, setRefresh] = useState(true);
+  const token= localStorage.getItem('token') ?? "";
   const columns = [
     {
       title: "Tên lĩnh vực",
@@ -108,7 +109,7 @@ const ActivityFields = () => {
       duration: 5,
       content: "Loading",
     });
-    Deletefield  (id)
+    Deletefield  (token,id)
       .then((res) => {
         message.destroy();
         message.success({

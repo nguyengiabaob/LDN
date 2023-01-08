@@ -6,12 +6,12 @@ export const getListMenu = () => {
 export const getMenusWithUrl = () => {
   return getApi("/Menus/GetMenusWithUrl");
 };
-export const postMenu = (data: any) => {
-  return postApi("/Menus", data);
+export const postMenu = (token: string, data: any) => {
+  return postApi(`/Menus?token=${token}`, data);
 };
-export const deleteMenu = (id: string) => {
-  return deleteApi(`/Menus/${id}`);
+export const deleteMenu = (token: string, id: string) => {
+  return deleteApi(`/Menus/${id}?token=${token}`);
 };
-export const UpdateMenu = (id: string, data: any) => {
-  return putApi(`/Menus/${id}`, data);
+export const UpdateMenu = (token: string, id: string, data: any) => {
+  return putApi(`/Menus/${id}?token=${token}`, data);
 };

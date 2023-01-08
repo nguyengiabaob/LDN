@@ -9,6 +9,7 @@ const Pages = () => {
   const [Pages, setPages] = useState();
   const [refresh, setRefresh] = useState(true);
   const [dataUpdate, setDataUpdate] = useState();
+  const token = localStorage.getItem("token") ?? "";
   const getListPages = () => {
     getPages().then((res) => {
       if (res.data && res.data.length > 0) {
@@ -83,7 +84,7 @@ const Pages = () => {
       duration: 5,
       content: "Loading",
     });
-    DeletePage(id)
+    DeletePage(token, id)
       .then((res) => {
         message.destroy();
         message.loading({

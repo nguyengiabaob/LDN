@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -45,13 +46,21 @@ namespace LDNWebsiteOfficiall.Controllers
         // PUT: api/Permissions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPermissions(long id, Permissions permissions)
+        public async Task<IActionResult> PutPermissions(long id, string token, Permissions permissions)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             if (id != permissions.Id)
             {
                 return BadRequest();
             }
-
+         
             _context.Entry(permissions).State = EntityState.Modified;
 
             try
@@ -76,8 +85,16 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/Permissions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Permissions>> PostPermissions(Permissions permissions)
+        public async Task<ActionResult<Permissions>> PostPermissions(string token, Permissions permissions)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             _context.Permissions.Add(permissions);
             await _context.SaveChangesAsync();
 
@@ -86,8 +103,16 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // DELETE: api/Permissions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePermissions(long id)
+        public async Task<IActionResult> DeletePermissions(string token,long id)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             var permissions = await _context.Permissions.FindAsync(id);
             if (permissions == null)
             {

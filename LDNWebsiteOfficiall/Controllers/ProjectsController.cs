@@ -9,6 +9,7 @@ using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
 using LDNWebsiteOfficiall.Models.ViewModels;
 using LDNWebsiteOfficiall.Service;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -18,7 +19,7 @@ namespace LDNWebsiteOfficiall.Controllers
     {
         private readonly LDNWebisteContext _context;
         private readonly IprojectService _projectService;
-        public ProjectsController(LDNWebisteContext context , IprojectService projectService)
+        public ProjectsController(LDNWebisteContext context, IprojectService projectService)
         {
             _context = context;
             _projectService = projectService;
@@ -48,8 +49,16 @@ namespace LDNWebsiteOfficiall.Controllers
         // PUT: api/Projects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProjects(long id, Projects projects)
+        public async Task<IActionResult> PutProjects(long id, string token, Projects projects)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             if (id != projects.Id)
             {
                 return BadRequest();
@@ -79,8 +88,16 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/Projects
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Projects>> PostProjects(Projects projects)
+        public async Task<ActionResult<Projects>> PostProjects(string token, Projects projects)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             _context.Projects.Add(projects);
             await _context.SaveChangesAsync();
 
@@ -89,8 +106,16 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // DELETE: api/Projects/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProjects(long id)
+        public async Task<IActionResult> DeleteProjects(string token, long id)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             var projects = await _context.Projects.FindAsync(id);
             if (projects == null)
             {

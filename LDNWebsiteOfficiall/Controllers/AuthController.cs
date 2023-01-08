@@ -71,6 +71,7 @@ namespace LDNWebsiteOfficiall.Controllers
                   , claims: claims
               );
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+
         }
 
         //[HttpPost("/api/Auth/getUserInfo")]

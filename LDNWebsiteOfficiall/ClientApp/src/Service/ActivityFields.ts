@@ -3,12 +3,12 @@ import { deleteApi, getApi, postApi, putApi } from "./Client";
 export const getfields = () => {
   return getApi("/ActivityFields/FieldsList");
 };
-export const Addfields = (data: any) => {
-  return postApi(`/ActivityFields`, data);
+export const Addfields = (token: string, data: any) => {
+  return postApi(`/ActivityFields?token=${token}`, data);
 };
-export const Updatefield = (id: string, data: any) => {
-  return putApi(`/ActivityFields/${id}`, data);
+export const Updatefield = (token: string, id: string, data: any) => {
+  return putApi(`/ActivityFields/${id}?token=${token}`, data);
 };
-export const Deletefield = (id: string) => {
-  return deleteApi(`/ActivityFields/${id}`);
+export const Deletefield = (token: string, id: string) => {
+  return deleteApi(`/ActivityFields/${id}?token=${token}`);
 };

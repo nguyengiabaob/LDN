@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -45,13 +46,21 @@ namespace LDNWebsiteOfficiall.Controllers
         // PUT: api/TypeContructeds/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeContructed(long id, TypeContructed typeContructed)
+        public async Task<IActionResult> PutTypeContructed(long id, string token, TypeContructed typeContructed)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             if (id != typeContructed.Id)
             {
                 return BadRequest();
             }
-
+          
             _context.Entry(typeContructed).State = EntityState.Modified;
 
             try
@@ -76,8 +85,16 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/TypeContructeds
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TypeContructed>> PostTypeContructed(TypeContructed typeContructed)
+        public async Task<ActionResult<TypeContructed>> PostTypeContructed( string token,TypeContructed typeContructed)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             _context.TypeContructed.Add(typeContructed);
             await _context.SaveChangesAsync();
 
@@ -86,8 +103,16 @@ namespace LDNWebsiteOfficiall.Controllers
 
         // DELETE: api/TypeContructeds/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeContructed(long id)
+        public async Task<IActionResult> DeleteTypeContructed(string token,long id)
         {
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
             var typeContructed = await _context.TypeContructed.FindAsync(id);
             if (typeContructed == null)
             {

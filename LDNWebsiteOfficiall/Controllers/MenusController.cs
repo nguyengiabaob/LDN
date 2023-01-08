@@ -9,6 +9,9 @@ using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
 using LDNWebsiteOfficiall.IService;
 using LDNWebsiteOfficiall.Models.ViewModels;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using LDNWebsiteOfficiall.MiddleAware;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -54,12 +57,23 @@ namespace LDNWebsiteOfficiall.Controllers
         // PUT: api/Menus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenus(int id, Menus menus)
+        public async Task<IActionResult> PutMenus(int id, string token, Menus menus)
         {
+
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if(endecodeToken== -1)
+            {
+                return Unauthorized();
+            }
+         
+           
+              var username =  _context.AccountUser.Where(x=>x.Id == endecodeToken).FirstOrDefault().Username;
+            
             if (id != menus.Id)
             {
                 return BadRequest();
             }
+            menus.CreateBy = username ?? null;
 
             _context.Entry(menus).State = EntityState.Modified;
 
@@ -85,9 +99,17 @@ namespace LDNWebsiteOfficiall.Controllers
         // POST: api/Menus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Menus>> PostMenus(Menus menus)
+        public async Task<ActionResult<Menus>> PostMenus(string token ,Menus menus)
         {
-            menus.CreateBy= "bao";
+            int endecodeToken = JwtokeinMiddleWare.ValidateToken(token);
+            if (endecodeToken == -1)
+            {
+                return Unauthorized();
+            }
+
+
+            var username = _context.AccountUser.Where(x => x.Id == endecodeToken).FirstOrDefault().Username;
+            menus.CreateBy= username;
             menus.CreateDate = DateTime.Now;
             menus.IsDeleted =false;
             _context.Menus.Add(menus);

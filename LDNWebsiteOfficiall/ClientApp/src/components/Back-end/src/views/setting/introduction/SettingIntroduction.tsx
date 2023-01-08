@@ -3,8 +3,7 @@ import { Button, Col, Form, message, Modal, Row, Select, Upload } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useEffect, useState } from "react";
-import IsMobileDevice from "../../../../../../GeneralFunction/GeneralFunction";
-import { getSetting, PostSetting } from "../../../../../../Service/ConfigService";
+import { getSetting, PostSetting, UpdateSetting } from "../../../../../../Service/ConfigService";
 import { getPages } from "../../../../../../Service/PageService";
 import { postInsertUpload, UploadFile } from "../../../../../../Service/UploadService";
 interface props {
@@ -13,12 +12,11 @@ interface props {
   dataUpdate?:any 
 }
 
-const SettingSilder = (props: props) => {
+const SettingIntroduction = (props: props) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [PagesList, setPagesList] = useState<any[]>([]);
   const token= localStorage.getItem('token') ?? "";
-  const IsMobile = IsMobileDevice();
   const getPagesList = async () => {
     let result = await getPages();
     if (result && result.data) {
@@ -30,11 +28,10 @@ const SettingSilder = (props: props) => {
   const [fileList, setFileList] = useState<any>([]);
   const UploadImage = async (id:any, value:any) => {
     if (value) {
-      console.log("dasdas", value.image);
       let a = await Promise.all(
         value.map(async (x:any) => {
           console.log("dasdasIMAGE", x.originFileObj);
-          let insertDataUpload = await postInsertUpload(id,token,x.originFileObj,);
+          let insertDataUpload = await postInsertUpload(id,token,x.originFileObj);
           console.log("Image", x.originFileObj);
           if (insertDataUpload) {
             let file = {
@@ -52,24 +49,20 @@ const SettingSilder = (props: props) => {
   useEffect(() => { 
     if(props.dataUpdate)
     {
-      // let formdata= JSON.parse(props.dataUpdate);
-      // console.log('dsadasdasdas',formdata);
-    
+      let formdata= JSON.parse(props.dataUpdate?.data);
+      console.log('dsadasdasdas',formdata);
       handleChange({
         fileList:props.dataUpdate.Upload
       });
-      form.setFieldsValue({...props.dataUpdate})
-
-     
+      
+      form.setFieldsValue({...formdata})
     }
   
    
   }, [props.dataUpdate])
   
   const handleChange = ({ fileList }:any) => {
-    console.log('dasdasdasdsa',fileList);
-    
-    if (fileList.length > 0) {
+    if (fileList && fileList.length > 0) {
       setFileList([fileList[fileList.length - 1]]);
     } else {
       setFileList([]);
@@ -107,64 +100,113 @@ const SettingSilder = (props: props) => {
       const {Upload} = newData;
       delete newData.Upload
    
-      if(newData)
+      if(!props.dataUpdate)
       {
-              let dataJson = JSON.stringify(newData);
-            if(value)
-            {
-              let resultPostSetting =  await  PostSetting(token,{
-                typeSetting : 'slider'
-                ,data:dataJson
-                
-              });
-              if(resultPostSetting.data && resultPostSetting && Upload.length>0)
+        if(newData)
+        {
+                let dataJson = JSON.stringify(newData);
+              if(value)
               {
-                console.log('dsadsadasdAAAA',Upload);
-                
-                try
+                let resultPostSetting =  await  PostSetting(token,{
+                  typeSetting : 'introduction'
+                  ,data:dataJson
+                  
+                });
+                if(resultPostSetting.data && resultPostSetting &&Upload && Upload.length>0)
                 {
-                  await  UploadImage(resultPostSetting.data?.id,Upload);
-                  message.success({
-                    content:'Tạo cấu hình  thành công',
-                    duration:2,
-    
-                  })
+                  console.log('dsadsadasdAAAA',Upload);
+                  
+                  try
+                  {
+                    await  UploadImage(resultPostSetting.data?.id,Upload);
+                    message.success({
+                      content:'Tạo cấu hình  thành công',
+                      duration:2,
+      
+                    })
+                    form.resetFields();
+                  }
+                  catch(e)
+                  {
+                    message.error({
+                      content:'Tạo cấu hình không thành công',
+                      duration:2,
+      
+                    })
+                  }  
+                   
                 }
-                catch(e)
-                {
-                  message.error({
-                    content:'Tạo cấu hình không thành công',
-                    duration:2,
-    
-                  })
-                }  
-                 
               }
-            }
-            else
-            {
-              message.error({
-                content:'Tạo cấu hình không thành công',
-                duration:2,
-
-              })
-            }
+              else
+              {
+                message.error({
+                  content:'Tạo cấu hình không thành công',
+                  duration:2,
+  
+                })
+              }
+        }      
       }
-   
-      // console.log('Value', JSON.stringify(newData));
-      // console.log('Value', value);
-     
-        
-      
+      else
 
+      {
+        if(newData)
+        {
+          console.log('dsadasds',props.dataUpdate);
+        
+                let dataJson = JSON.stringify(newData);
+               
+              if(value)
+              {
+                let resultPostSetting =  await  UpdateSetting(props.dataUpdate.id,token,{
+                  typeSetting : 'introduction'
+                  ,data:dataJson,
+                  id:props.dataUpdate.id
+                  
+                });
+                if(resultPostSetting.data && resultPostSetting &&Upload && Upload.length>0)
+                {
+                  console.log('dsadsadasdAAAA',Upload);
+                  
+                  try
+                  {
+                    await  UploadImage(resultPostSetting.data?.id,Upload);
+                  }
+                  catch(e)
+                  {
+                    message.error({
+                      content:'Tạo cấu hình không thành công',
+                      duration:2,
       
+                    })
+                  }  
+                   
+                }
+                message.success({
+                  content:'Tạo cấu hình  thành công',
+                  duration:2,
+  
+                })
+                form.resetFields();
+                props.onCancel(true);
+              }
+              else
+              {
+                message.error({
+                  content:'Tạo cấu hình không thành công',
+                  duration:2,
+  
+                })
+              }
+        }      
+
+      }
   }
   return (
     <Modal
-      title={"Danh sách Silder"}
+      title={"Danh sác đoạn văn giới thiệu "}
       visible={props.openModal}
-      width={IsMobile ? "90%":"70%"}
-      zIndex={1066}
+      width={"70%"}
       centered
       onCancel={() => props.onCancel(false)}
       onOk={()=>{
@@ -177,14 +219,9 @@ const SettingSilder = (props: props) => {
                       <Col  lg={12}>
                         <Form.Item
                       
-                      name={'page'}
+                      name={'Paragraph 1'}
                         >
-                          <Select placeholder="Chọn trang chi tiết cho sidler">
-                            {PagesList.length > 0 &&
-                              PagesList.map((x: any) => {
-                                return <Select.Option value={x.id} >{x.name}</Select.Option>;
-                              })}
-                          </Select>
+                         <TextArea placeholder="Đoạn văn đầu tiên"/>
                         </Form.Item>
                       </Col>
                     </Row>
@@ -192,9 +229,19 @@ const SettingSilder = (props: props) => {
                       <Col lg={12}>
                         <Form.Item   
                     
-                        name={ 'description'}
+                        name={ 'Paragraph 2'}
                         >
-                          <TextArea placeholder="Thông tin mô tả dự án"></TextArea>
+                          <TextArea placeholder="Thông tin mô tả "></TextArea>
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg={12}>
+                        <Form.Item   
+                    
+                        name={ 'Paragraph 3'}
+                        >
+                          <TextArea placeholder="Thông tin mô tả "></TextArea>
                         </Form.Item>
                       </Col>
                     </Row>
@@ -213,18 +260,14 @@ const SettingSilder = (props: props) => {
                                  className="avatar-uploader"
                                  onChange={handleChange}
                                >
-                                 { fileList.length >=1  ? null : uploadButton}
+                                 { fileList.length >=1 ? null : uploadButton}
                           </Upload>
                         </Form.Item>
                       </Col>
                     </Row>
-                
-
-      
-   
       </Form>
     </Modal>
   );
 };
 
-export default SettingSilder;
+export default SettingIntroduction;
