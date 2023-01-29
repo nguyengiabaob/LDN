@@ -13,5 +13,7 @@ namespace LDNWebsiteOfficiall.Procedure
         public string getSettingBytype => "getSettingBytype";
         public string getTypeConfig => "getTypeConfig";
         public string getFields => "Fields_GetFields";
+
+        public string DeleteUploadFile => "DeleteUploadFile";
     }
 }

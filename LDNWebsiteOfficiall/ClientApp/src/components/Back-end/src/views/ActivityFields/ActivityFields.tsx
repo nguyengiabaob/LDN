@@ -6,6 +6,7 @@ import { MdDeleteOutline } from 'react-icons/md';
 import { Deletefield, getfields } from '../../../../../Service/ActivityFields';
 import { baseUrl } from '../../../../../Service/Client';
 import { getUploadImage } from '../../../../../Service/UploadService';
+import InsertUpdateActivityFields from './InsertUpdateActivityFields';
 
 const ActivityFields = () => {
   const [FieldstLists, setFieldstLists] = useState([]);
@@ -17,7 +18,7 @@ const ActivityFields = () => {
   const columns = [
     {
       title: "Tên lĩnh vực",
-      dataIndex: "owner",
+      dataIndex: "name",
       key: "owner",
     },
     {
@@ -91,12 +92,14 @@ const ActivityFields = () => {
     let dataFields = await getfields();
     if (dataFields) {
       setIsLoading(false);
-      console.log("dataProject", dataFields.data);
+      // console.log("dataProject", dataFields.data);
       setFieldstLists(dataFields.data);
     }
   };
   const onCreateProject = () => {
     setVisible(true);
+    setProject(undefined);
+    setRefresh(false);
   };
   useEffect(() => {
     if (refresh == true) {
@@ -106,22 +109,22 @@ const ActivityFields = () => {
   }, [refresh]);
   const onDelete = (id:any) => {
     message.loading({
-      duration: 5,
+      duration: 2,
       content: "Loading",
     });
     Deletefield  (token,id)
       .then((res) => {
         message.destroy();
         message.success({
-          duration: 5,
+          duration: 2,
           content: "Dự án đã dược xóa",
         });
         setRefresh(true);
       })
       .catch((e) => {
         message.destroy();
-        message.loading({
-          duration: 5,
+        message.error({
+          duration: 2,
           content: "Dự án chưa được dược xóa",
         });
       });
@@ -137,10 +140,11 @@ const ActivityFields = () => {
           }}
         >
           <span style={{ fontSize: "25px", fontWeight: 700 }}>
-            Danh sách dự án
+            Danh sách lĩnh vực hoạt động 
           </span>
           <Button onClick={onCreateProject} title="Thêm trang">
-            Thêm dự án
+            Thêm dự án lĩnh vực hoạt động 
+  
           </Button>
         </div>
         <div>
@@ -151,6 +155,7 @@ const ActivityFields = () => {
           />
         </div>
       </Card>
+      <InsertUpdateActivityFields visible={visible} onvisible={setVisible} onRefresh={setRefresh} dataUpdate={Project} />
       {/* <InsertUploadProjects
         onRefresh={setRefresh}
         dataUpdate={Project}

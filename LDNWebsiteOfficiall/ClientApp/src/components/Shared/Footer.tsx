@@ -1,6 +1,7 @@
 import { Button, Col, Row, Space, Typography } from "antd";
-import * as ReactIcons from 'react-icons/all'
 import React, { CanvasHTMLAttributes, useEffect, useRef } from "react";
+import { TbBrandTiktok } from "react-icons/tb";
+import {GrFacebookOption, GrInstagram, GrYoutube} from 'react-icons/gr'
 const Footer = () => {
 const {Title}= Typography;
     return(
@@ -29,7 +30,7 @@ const {Title}= Typography;
                             <div style={{display: 'flex', flexDirection:'column', alignItems:'center' }}>
                                 <Space className="custom-space">
                                     <span className="border-radius-icon" id="iconfacebook">
-                                            <ReactIcons.GrFacebookOption color="#9c9c9c" size={17}/>
+                                            <GrFacebookOption color="#9c9c9c" size={17}/>
                                     </span>
                                     <span style={{color:'#9c9c9c'}}>
                                         Facebook
@@ -37,7 +38,7 @@ const {Title}= Typography;
                                 </Space>
                                 <Space className="custom-space"  >
                                     <span className="border-radius-icon" id="iconyoutube">
-                                            <ReactIcons.GrYoutube color="#9c9c9c" size={17}/>
+                                            <GrYoutube color="#9c9c9c" size={17}/>
                                     </span>
                                     <span style={{color:'#9c9c9c'}}>
                                        Youtube
@@ -45,7 +46,7 @@ const {Title}= Typography;
                                 </Space>
                                 <Space className="custom-space">
                                     <span className="border-radius-icon" id="iconinstagram">
-                                            <ReactIcons.GrInstagram color="#9c9c9c" size={17}/>
+                                            <GrInstagram color="#9c9c9c" size={17}/>
                                     </span>
                                     <span style={{color:'#9c9c9c'}}>
                                         Instagram
@@ -53,7 +54,7 @@ const {Title}= Typography;
                                 </Space>
                                 <Space className="custom-space">
                                     <span className="border-radius-icon" id="icontiktok">
-                                            <ReactIcons.TbBrandTiktok color="#9c9c9c" size={17}/>
+                                            <TbBrandTiktok color="#9c9c9c" size={17}/>
                                     </span>
                                     <span style={{color:'#9c9c9c'}}>
                                         Tiktok

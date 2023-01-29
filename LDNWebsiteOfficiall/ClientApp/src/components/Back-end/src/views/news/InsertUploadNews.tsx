@@ -15,7 +15,7 @@ import { CKEditor, useCKEditor } from "ckeditor4-react";
 import React, { useState, useEffect } from "react";
 import IsMobileDevice from "../../../../../GeneralFunction/GeneralFunction";
 import { baseUrl } from "../../../../../Service/Client";
-import { AddNew } from "../../../../../Service/NewsService";
+import { AddNew, UpdateNews } from "../../../../../Service/NewsService";
 import {
   AddProject,
   UpdateProject,
@@ -60,6 +60,12 @@ const  InsertUploadNews= (props:props) => {
   useEffect(() => {
     if (props.dataUpdate) {
       console.log(props.dataUpdate);
+     if(props.dataUpdate?.Upload)
+     {
+      handleChange({
+        fileList:props.dataUpdate?.Upload
+      });
+     }
       form.setFieldsValue(props.dataUpdate);
       // form.setFieldValue("image", [
       //   {
@@ -141,7 +147,7 @@ const  InsertUploadNews= (props:props) => {
       if (props.dataUpdate?.id) {
         value.id = props.dataUpdate?.id;
       }
-      UpdateProject(props.dataUpdate?.id, token,value)
+      UpdateNews (props.dataUpdate?.id, token,value)
         .then((res) => {
           try {
           

@@ -3,6 +3,9 @@ import { deleteApi, getApi, postApi, putApi } from "./Client";
 export const getfields = () => {
   return getApi("/ActivityFields/FieldsList");
 };
+export const getfieldsId = (id: any) => {
+  return getApi(`/ActivityFields/${id}`);
+};
 export const Addfields = (token: string, data: any) => {
   return postApi(`/ActivityFields?token=${token}`, data);
 };

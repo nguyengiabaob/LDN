@@ -9,10 +9,10 @@ namespace LDNWebsiteOfficiall.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Content { get; set; }
+        public string PageContent { get; set; }
         public DateTime? CreateDate { get; set; }
         public string CreateBy { get; set; }
+        public bool? IsShow { get; set; }
         public bool? IsDeleted { get; set; }
-        public string Image { get; set; }
     }
 }

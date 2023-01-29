@@ -58,6 +58,9 @@ const InsertUploadProjects = (props) => {
   useEffect(() => {
     if (props.dataUpdate) {
       console.log(props.dataUpdate);
+      handleChange({
+        fileList: props.dataUpdate.image,
+      });
       form.setFieldsValue(props.dataUpdate);
       // form.setFieldValue("image", [
       //   {

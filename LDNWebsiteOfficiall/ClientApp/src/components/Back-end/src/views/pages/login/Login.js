@@ -44,7 +44,7 @@ const Login = () => {
                       let result = await onLogin(val);
                       if (result && result.data && result.status == 200) {
                         console.log("toppjken", result.data);
-                        console.log("toppjken", state.oldUrl);
+                        console.log("toppjken", state?.oldUrl);
                         localStorage.setItem("token", result.data);
                         state
                           ? navigate(state?.oldUrl)

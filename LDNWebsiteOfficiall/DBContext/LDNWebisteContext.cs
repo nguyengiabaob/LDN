@@ -58,8 +58,6 @@ namespace LDNWebsiteOfficiall.DBContext
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Content).HasColumnName("content");
-
                 entity.Property(e => e.CreateBy)
                     .HasColumnName("createBy")
                     .HasMaxLength(50);
@@ -68,13 +66,15 @@ namespace LDNWebsiteOfficiall.DBContext
                     .HasColumnName("createDate")
                     .HasColumnType("date");
 
-                entity.Property(e => e.Image).HasColumnName("image");
-
                 entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
+
+                entity.Property(e => e.IsShow).HasColumnName("isShow");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.PageContent).HasColumnName("pageContent");
             });
 
             modelBuilder.Entity<Config>(entity =>

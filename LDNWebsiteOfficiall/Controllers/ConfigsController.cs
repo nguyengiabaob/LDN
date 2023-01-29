@@ -9,6 +9,9 @@ using LDNWebsiteOfficiall.DBContext;
 using LDNWebsiteOfficiall.Models;
 using LDNWebsiteOfficiall.IService;
 using LDNWebsiteOfficiall.MiddleAware;
+using LDNWebsiteOfficiall.Helper;
+using LDNWebsiteOfficiall.IProcedure;
+using Dapper;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -18,10 +21,14 @@ namespace LDNWebsiteOfficiall.Controllers
     {
         private readonly LDNWebisteContext _context;
         private readonly IConfigService _IConfigService;
-        public ConfigsController(LDNWebisteContext context, IConfigService IconfigService)
+        private readonly IDapper _dapper;
+        private readonly IStoreProcedure _Procedure;
+        public ConfigsController(LDNWebisteContext context, IConfigService IconfigService , IDapper dapper, IStoreProcedure _procedure)
         {
             _context = context;
             _IConfigService = IconfigService;
+            _dapper=dapper;
+            _Procedure = _procedure;
         }
 
         // GET: api/Configs
@@ -69,6 +76,9 @@ namespace LDNWebsiteOfficiall.Controllers
             config.CreateDate = DateTime.Now;
             config.CreateBy = username;
             _context.Entry(config).State = EntityState.Modified;
+            var param = new DynamicParameters();
+            param.Add("@id", id);
+            await _dapper.ExecuteTransactionASync<dynamic>(_Procedure.DeleteUploadFile, param); 
 
             try
             {
@@ -130,6 +140,9 @@ namespace LDNWebsiteOfficiall.Controllers
             }
 
             _context.Config.Remove(config);
+            var param = new DynamicParameters();
+            param.Add("@id", id);
+            await _dapper.ExecuteTransactionASync<dynamic>(_Procedure.DeleteUploadFile, param);
             await _context.SaveChangesAsync();
 
             return NoContent();

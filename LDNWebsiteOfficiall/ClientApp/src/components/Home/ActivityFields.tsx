@@ -1,8 +1,20 @@
 import { Card, Carousel, Typography } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../../Style/CustomStyle.scss';
 const ActivityFields = ()=>{
 const {Title}= Typography;
+const [ListActivityFields, setListActivityFields] = useState();
+const getActivityFields= ()=>{
+     
+}
+    // useEffect(() => {
+    //   first
+    
+    //   return () => {
+    //     second
+    //   }
+    // }, [third])
+    
     return (
         <Carousel
            

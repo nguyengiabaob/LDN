@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
+import { getfieldsId } from '../../Service/ActivityFields';
 import { getNewsDetail } from '../../Service/NewsService';
 import { getPagesById } from '../../Service/PageService'
 interface props {
@@ -37,6 +38,19 @@ const  GeneratePage =(props: props) => {
         
     })
     }
+    if(props.type=="activityFields" && id)
+    {
+      getfieldsId(id).then((res)=>{
+        if(res.data)
+        {
+          console.log(res.data)
+            setPage(res.data)
+        }
+    })
+    .catch(e=>{
+        
+    })
+    }
  }
  useEffect(() => {
   console.log(props.id);
@@ -44,13 +58,21 @@ const  GeneratePage =(props: props) => {
  }, [props.id,id])
  
   return (
+    <>
+  {
+      props.type =="activityFields" && <div>
+       <p>{Page?.name}</p>
+      </div>
+  }
+  
+    
     <div className='dynamicPage'>
-      {console.log('dsadsadsad',  Page?.pageContent)
-      }
     <div dangerouslySetInnerHTML={{__html: Page?.pageContent}}>
    
     </div>
     </div>
+    
+    </>
   )
 }
 

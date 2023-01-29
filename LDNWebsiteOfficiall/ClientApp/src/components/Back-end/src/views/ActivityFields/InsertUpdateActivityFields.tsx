@@ -1,5 +1,6 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import {
+  Checkbox,
   Col,
   DatePicker,
   Form,
@@ -13,7 +14,7 @@ import {
 import { useForm } from "antd/lib/form/Form";
 import { CKEditor, useCKEditor } from "ckeditor4-react";
 import React, { useState, useEffect } from "react";
-import { Updatefield } from "../../../../../Service/ActivityFields";
+import { Addfields, Updatefield } from "../../../../../Service/ActivityFields";
 import { baseUrl } from "../../../../../Service/Client";
 import { AddNew } from "../../../../../Service/NewsService";
 import {
@@ -54,18 +55,27 @@ const  InsertUpdateActivityFields= (props:props) => {
           }
         })
       );
-      console.log("Await", a);
+      // console.log("Await", a);
     }
   };
   useEffect(() => {
     if (props.dataUpdate) {
       console.log(props.dataUpdate);
-      form.setFieldsValue(props.dataUpdate);
+     
+      handleChange({
+        fileList:props.dataUpdate.image
+      });
+      form.setFieldsValue({...props.dataUpdate});
       // form.setFieldValue("image", [
       //   {
       //     url: baseUrl + `/Images/reference22011838.png`,
       //   },
       // ]);
+    }
+    else
+    {
+      form.resetFields();
+      setFileList([]); 
     }
   }, [props.dataUpdate]);
   useEffect(()=>{
@@ -111,14 +121,14 @@ const  InsertUpdateActivityFields= (props:props) => {
       content: "Loading",
     });
     if (!props.dataUpdate) {
-      AddNew(token,value)
-        .then((res) => {
+      Addfields(token,value)
+        .then(async(res) => {
           try {
-          UploadImage(res.data?.id,  value )
+         await UploadImage(res.data?.id,  value )
             message.destroy();
             message.success({
               duration: 4,
-              content: "Thêm tin tức thành công",
+              content: "Thêm cấu hình thành công",
             });
             props.onvisible(false);
             props.onRefresh(true);
@@ -126,7 +136,7 @@ const  InsertUpdateActivityFields= (props:props) => {
             message.destroy();
             message.error({
               duration: 4,
-              content: "Thêm tin tức không thành công",
+              content: "Thêm cấu hình  không thành công",
             });
           }
         })
@@ -134,14 +144,14 @@ const  InsertUpdateActivityFields= (props:props) => {
           message.destroy();
           message.error({
             duration: 4,
-            content: "Thêm tin tức không thành công",
+            content: "Thêm cấu hình  không thành công",
           });
         });
     } else {
       if (props.dataUpdate?.id) {
         value.id = props.dataUpdate?.id;
       }
-      Updatefield(props.dataUpdate?.id,token, value)
+      Updatefield(token,props.dataUpdate?.id, value)
         .then((res) => {
           try {
           
@@ -149,9 +159,7 @@ const  InsertUpdateActivityFields= (props:props) => {
             message.success({
               duration: 4,
               content: "Chỉnh sửa tin tức thành công",
-            });
-            props.onvisible(false);
-            props.onRefresh(true);
+            })
           } catch (e) {
             message.destroy();
             message.error({
@@ -159,7 +167,7 @@ const  InsertUpdateActivityFields= (props:props) => {
               content: "Chỉnh sửa tin tức không thành công",
             });
           }
-        })
+        })  
         .catch((e) => {
           message.destroy();
           message.error({
@@ -167,7 +175,10 @@ const  InsertUpdateActivityFields= (props:props) => {
             content: "Chỉnh sửa tin tức không thành công",
           });
         });
+        props.onvisible(false);
+        props.onRefresh(true);
     }
+    form.resetFields();
   };
   let a = "Tên chủ đầu tư";
   console.log(a.length);
@@ -185,6 +196,7 @@ const  InsertUpdateActivityFields= (props:props) => {
       onOk={() => form.submit()}
       onCancel={() => {
         props.onvisible(false);
+       
       }}
       width={"60%"}
       centered
@@ -307,7 +319,7 @@ const  InsertUpdateActivityFields= (props:props) => {
           <Row gutter={[4, 16]}>
           <Col span={24}>
             <Form.Item
-              name={"content"}
+              name={"PageContent"}
               label="Nội dung trang"
               getValueFromEvent={valueEditor}
             >
@@ -341,14 +353,14 @@ const  InsertUpdateActivityFields= (props:props) => {
               <Form.Item
                 valuePropName="fileList"
                 name={"image"}
-                label={"Mô tả"}
+                label={"Hình ảnh"}
                 getValueFromEvent={getFile}
-                rules={[
-                  {
-                    required: true,
-                    message: "Hãy chọn hình ảnh nền",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Hãy chọn hình ảnh nền",
+                //   },
+                // ]}
               >
                 <Upload
                   name="avatar"
@@ -358,6 +370,33 @@ const  InsertUpdateActivityFields= (props:props) => {
                 >
                   {fileList.length >= 1 ? null : uploadButton}
                 </Upload>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+      <div>
+        <Form
+          form={form}
+          onFinish={onFinish}
+          layout="horizontal"
+          labelCol={{ lg: 2, md: 6, sm: 8, xl: 2, xxl: 2, xs: 24 }}
+        >
+          <Row>
+            <Col xs={24} sm={24} lg={24} xxl={24} md={24} xl={24}>
+              <Form.Item
+         
+                name={"isShow"}
+                label={"Hiển thị"}
+              
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Hãy chọn hình ảnh nền",
+                //   },
+                // ]}
+              >
+              <Checkbox  />
               </Form.Item>
             </Col>
           </Row>

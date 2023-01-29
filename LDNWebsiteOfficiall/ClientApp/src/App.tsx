@@ -1,9 +1,6 @@
 import * as React from "react";
 // import { Route } from 'react-router';
 import Layout from "./components/Layout";
-
-import Counter from "./components/Counter";
-import FetchData from "./components/FetchData";
 import "antd/dist/antd.css";
 import "./custom.css";
 import "./Style/CustomStyle.scss";
@@ -58,7 +55,6 @@ const App = () => {
   );
 
   return (
-    <BrowserRouter>
       <React.Suspense fallback={loading}>
         <Routes>
           <Route element={<Layout />}>
@@ -102,6 +98,10 @@ const App = () => {
               path={`/projectDetail/:id`}
               element={<ProjectDetail />}
             ></Route>
+             <Route
+              path={`/activityFields/:id`}
+              element={<GeneratePage type="activityFields"/>}
+            ></Route>
             <Route path={`/news`} element={<ListNews />}></Route>
             <Route path={`/contact`} element={<Contact />}></Route>
           </Route>
@@ -113,7 +113,7 @@ const App = () => {
           )}
         </Routes>
       </React.Suspense>
-    </BrowserRouter>
+    
   );
 };
 export default App;

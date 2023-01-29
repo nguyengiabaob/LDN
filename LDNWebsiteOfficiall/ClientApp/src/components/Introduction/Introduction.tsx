@@ -1,8 +1,26 @@
 import { fontSize } from "@mui/system";
 import { Card, Col, Image, Row } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getSetting } from "../../Service/ConfigService";
 interface props {}
 const Introdcution = (props: props) => {
+  const [contentData, setContentData] = useState();
+  useEffect(() => {
+   const a = async () => {
+     let intro =  await getSetting("introduction");
+     if(intro && intro?.data)
+     {
+      let data = JSON.parse(intro.data?.[0]?.data)
+      console.log('dsadasdsad', data);
+      
+      setContentData(data)
+     }
+    }
+  a();
+  
+  }, [])
+  
+
   return (
     <div>
       <div className="header-intro">
@@ -22,9 +40,10 @@ const Introdcution = (props: props) => {
               textAlign: "center",
             }}
           >
-            Nguồn nhân lực là giá trị cốt lõi và là nền tảng vững chắc giúp Long
+            {contentData?.["Paragraph 1"]? contentData?.["Paragraph 1"] :  "" }
+            {/* Nguồn nhân lực là giá trị cốt lõi và là nền tảng vững chắc giúp Long
             Đại Nam không ngừng tạo nên những giá trị gia tăng hiệu quả cho
-            khách hàng.
+            khách hàng. */}
           </span>
         </div>
       </div>
@@ -47,13 +66,14 @@ const Introdcution = (props: props) => {
               color: "#FFFF",
             }}
           >
-            DELTA được thành lập năm 1993, chuyên nhận thầu thi công các công
+            {contentData?.["Paragraph 2"]? contentData?.["Paragraph 1"] :  ""}
+            {/* DELTA được thành lập năm 1993, chuyên nhận thầu thi công các công
             trình xây dựng dân dụng, công nghiệp, các công trình có yêu cầu cao
             về chất lượng, kỹ thuật và mỹ thuật như khách sạn, tổ hợp nhà văn
             phòng, nhà ở cao cấp, các công trình hạ tầng khu công nghiệp, giao
             thông…. Trải qua 28 năm xây dựng và phát triển, DELTA đã trở thành
             Tập đoàn Xây dựng lớn mạnh với 12 công ty thành viên, 2500 cán bộ kỹ
-            sư, kiến trúc sư và hệ thống thiết bị máy móc đồng bộ, hiện đại.
+            sư, kiến trúc sư và hệ thống thiết bị máy móc đồng bộ, hiện đại. */}
           </div>
         </Card>
       </div>
@@ -86,14 +106,15 @@ const Introdcution = (props: props) => {
                     // color: "#FFFF",
                   }}
                 >
-                  Hơn hai mươi năm trước, DELTA đã đi những bước đầu tiên chập
+                    {contentData?.["Paragraph 3"]? contentData?.["Paragraph 3"] :  ""}
+                  {/* Hơn hai mươi năm trước, DELTA đã đi những bước đầu tiên chập
                   chững khi đất nước bước vào thời kỳ đổi mới. Và giờ đây, những
                   bước chân ấy đã in dấu lên khắp dải đất hình chữ S, nhưng với
                   một tâm thế, một dáng hình khác – vững chãi và mạnh mẽ hơn bao
                   giờ hết. Những thành công ấy là kết quả của định hướng đúng
                   đắn mà chủ tịch hội đồng thành viên Trần Nhật Thành theo đuổi
                   từ những ngày đầu thành lập. Đó là lấy chữ Tín, chữ Tâm làm
-                  đầu – lương tâm trong nghề nghiệp và tri thức trong công việc.
+                  đầu – lương tâm trong nghề nghiệp và tri thức trong công việc. */}
                 </span>
               </div>
             </Col>
@@ -116,7 +137,8 @@ const Introdcution = (props: props) => {
                   // color: "#FFFF",
                 }}
               >
-                DELTA hội tụ những người có kiến thức chuyên ngành giỏi, các
+                {contentData?.["Paragraph 4"]? contentData?.["Paragraph 4"] :  ""}
+                {/* DELTA hội tụ những người có kiến thức chuyên ngành giỏi, các
                 chuyên gia uy tín trong ngành xây dựng. Với cương vị là chủ tịch
                 công ty (vừa là thầy giáo Khoa Xây dựng – Trường ĐHXD Hà Nội),
                 thầy giáo Trần Nhật Thành đã tập hợp được một đội ngũ nhân sự
@@ -129,7 +151,7 @@ const Introdcution = (props: props) => {
                 hiện nay là sự kết hợp hài hòa của kiến thức kinh nghiệm lâu năm
                 và sự năng động nhiệt huyết của tuổi trẻ. Họ là những người phát
                 triển những hướng kinh doanh mới và áp dụng các công cụ quản trị
-                tiên tiến cho DELTA.
+                tiên tiến cho DELTA. */}
               </span>
             </div>
           </Col>

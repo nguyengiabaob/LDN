@@ -37,7 +37,9 @@ const App = () => {
     console.log("dasdasdasdasd456789", url);
     token
       ? navigate(url)
-      : navigate("/LDN/admin/login", { state: { oldUrl: url } });
+      : navigate("/LDN/admin/login", {
+          state: { oldUrl: url == "/LDN/admin/login" ? undefined : url },
+        });
   }, []);
 
   return (

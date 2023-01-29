@@ -58,7 +58,7 @@ const ListNews = () => {
                         Arrpath[Arrpath.length - 1]
                       }`;
 
-                    dataRow.image = [
+                    dataRow.Upload = [
                       {
                         url: path,
                       },

@@ -4,7 +4,7 @@ import { useForm } from "antd/lib/form/Form";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useEffect, useState } from "react";
 import IsMobileDevice from "../../../../../../GeneralFunction/GeneralFunction";
-import { getSetting, PostSetting } from "../../../../../../Service/ConfigService";
+import { getSetting, PostSetting, UpdateSetting } from "../../../../../../Service/ConfigService";
 import { getPages } from "../../../../../../Service/PageService";
 import { postInsertUpload, UploadFile } from "../../../../../../Service/UploadService";
 interface props {
@@ -53,7 +53,7 @@ const SettingSilder = (props: props) => {
     if(props.dataUpdate)
     {
       // let formdata= JSON.parse(props.dataUpdate);
-      // console.log('dsadasdasdas',formdata);
+      console.log('dsadasdasdas',props.dataUpdate);
     
       handleChange({
         fileList:props.dataUpdate.Upload
@@ -62,7 +62,11 @@ const SettingSilder = (props: props) => {
 
      
     }
-  
+    else
+    {
+      form.resetFields();
+      setFileList([]);
+    }
    
   }, [props.dataUpdate])
   
@@ -107,6 +111,8 @@ const SettingSilder = (props: props) => {
       const {Upload} = newData;
       delete newData.Upload
    
+    if(!props.dataUpdate)
+    {
       if(newData)
       {
               let dataJson = JSON.stringify(newData);
@@ -140,6 +146,8 @@ const SettingSilder = (props: props) => {
                 }  
                  
               }
+            
+           
             }
             else
             {
@@ -151,22 +159,75 @@ const SettingSilder = (props: props) => {
             }
       }
    
+    }
+    else
+    {
+      if(props.dataUpdate)
+      {
+        if(newData)
+        {
+                let dataJson = JSON.stringify(newData);
+              if(value)
+              {
+                try
+                {
+                let resultUpdateSetting =  await  UpdateSetting(props.dataUpdate?.id ,token,{
+                  id:props.dataUpdate?.id,
+                  typeSetting : 'slider'
+                  ,data:dataJson
+                  
+                });
+                if(props.dataUpdate?.id&&  Upload.length>0)
+                {
+                  console.log('dsadsadasdAAAA',Upload);
+                  
+                 
+                    await  UploadImage(props.dataUpdate?.id,Upload);
+                    message.success({
+                      content:'Tạo cấu hình  thành công',
+                      duration:2,
+      
+                    })
+                  }
+                 
+                }
+                  catch(e)
+                  {
+                    message.error({
+                      content:'Tạo cấu hình không thành công',
+                      duration:2,
+      
+                    })
+                  }  
+                   
+                }
+              
+              }
+              else
+              {
+                message.error({
+                  content:'Tạo cấu hình không thành công',
+                  duration:2,
+  
+                })
+              }
+        }
+      }
+      props.onCancel(false);
+      form.resetFields();
+    }
       // console.log('Value', JSON.stringify(newData));
       // console.log('Value', value);
      
-        
       
-
-      
-  }
   return (
-    <Modal
+    <Modal 
       title={"Danh sách Silder"}
-      visible={props.openModal}
+      open={props.openModal}
       width={IsMobile ? "90%":"70%"}
       zIndex={1066}
       centered
-      onCancel={() => props.onCancel(false)}
+      onCancel={() => {props.onCancel(false)}}
       onOk={()=>{
         form.submit();
       }}

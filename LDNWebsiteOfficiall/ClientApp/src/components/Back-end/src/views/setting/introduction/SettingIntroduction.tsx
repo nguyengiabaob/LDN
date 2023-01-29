@@ -246,6 +246,16 @@ const SettingIntroduction = (props: props) => {
                       </Col>
                     </Row>
                     <Row>
+                      <Col lg={12}>
+                        <Form.Item   
+                    
+                        name={ 'Paragraph 4'}
+                        >
+                          <TextArea placeholder="Thông tin mô tả "></TextArea>
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row>
                       <Col>
                         <Form.Item
                        

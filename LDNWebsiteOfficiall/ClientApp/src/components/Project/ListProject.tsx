@@ -1,11 +1,11 @@
 import { Col, Input, List, Row, Select } from "antd";
-import * as Icon from "react-icons/all";
 import React, { useEffect, useState } from "react";
 import ItemProject from "./ItemProject";
 import ProjectDetail from "./ProjectDetail";
 import { useNavigate } from "react-router-dom";
 import { getProjects } from "../../Service/ProjectService";
 import { baseUrl } from "../../Service/Client";
+import { BsSearch } from "react-icons/bs";
 const ListProject = () => {
   const navigate = useNavigate();
   // const [visible,setVisible]= useState(false);
@@ -39,7 +39,7 @@ const ListProject = () => {
         }}
       >
         <Input
-          prefix={<Icon.BsSearch name="BsSearch" size={10} />}
+          prefix={<BsSearch name="BsSearch" size={10} />}
           style={{ maxWidth: "300px" }}
           placeholder="Nhập tên dự án"
         />

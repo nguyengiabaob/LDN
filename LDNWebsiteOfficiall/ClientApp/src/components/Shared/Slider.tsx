@@ -47,8 +47,6 @@ const Slider = ()=>{
     
     return(
         <div style={{width:'100%', marginTop:'5px', position:'relative'}}>
-
-        {console.log('sdadasd',obj?.abc)}
         <Carousel
          beforeChange={activeSub}
          className="custom-carousel"

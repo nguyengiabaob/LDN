@@ -14,7 +14,7 @@ it('renders without crashing', () => {
     const store = storeFake({}) as any;
 
     ReactDOM.render(
-        <Provider store={store}>
+        <Provider store={store()}>
             <MemoryRouter>
                 <App/>
             </MemoryRouter>

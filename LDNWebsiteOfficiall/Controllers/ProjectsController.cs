@@ -10,6 +10,9 @@ using LDNWebsiteOfficiall.Models;
 using LDNWebsiteOfficiall.Models.ViewModels;
 using LDNWebsiteOfficiall.Service;
 using LDNWebsiteOfficiall.MiddleAware;
+using LDNWebsiteOfficiall.Helper;
+using LDNWebsiteOfficiall.IProcedure;
+using Dapper;
 
 namespace LDNWebsiteOfficiall.Controllers
 {
@@ -19,10 +22,14 @@ namespace LDNWebsiteOfficiall.Controllers
     {
         private readonly LDNWebisteContext _context;
         private readonly IprojectService _projectService;
-        public ProjectsController(LDNWebisteContext context, IprojectService projectService)
+        private readonly IDapper _dapper;
+        private readonly IStoreProcedure _Procedure;
+        public ProjectsController(LDNWebisteContext context, IprojectService projectService, IDapper dapper, IStoreProcedure procedure)
         {
             _context = context;
             _projectService = projectService;
+            _dapper=dapper;
+            _Procedure= procedure;
         }
 
         // GET: api/Projects
@@ -65,7 +72,9 @@ namespace LDNWebsiteOfficiall.Controllers
             }
 
             _context.Entry(projects).State = EntityState.Modified;
-
+            var param = new DynamicParameters();
+            param.Add("@id", id);
+            await _dapper.ExecuteTransactionASync<dynamic>(_Procedure.DeleteUploadFile, param);
             try
             {
                 await _context.SaveChangesAsync();
@@ -121,7 +130,9 @@ namespace LDNWebsiteOfficiall.Controllers
             {
                 return NotFound();
             }
-
+            var param = new DynamicParameters();
+            param.Add("@id", id);
+            await _dapper.ExecuteTransactionASync<dynamic>(_Procedure.DeleteUploadFile, param);
             _context.Projects.Remove(projects);
             await _context.SaveChangesAsync();
 
