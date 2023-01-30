@@ -6,6 +6,9 @@ export const getfields = () => {
 export const getfieldsId = (id: any) => {
   return getApi(`/ActivityFields/${id}`);
 };
+export const getfieldsShow = () => {
+  return getApi(`/ActivityFields/FieldsListShow`);
+};
 export const Addfields = (token: string, data: any) => {
   return postApi(`/ActivityFields?token=${token}`, data);
 };

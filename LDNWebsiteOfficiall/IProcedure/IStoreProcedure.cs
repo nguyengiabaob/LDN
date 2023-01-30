@@ -13,6 +13,7 @@ namespace LDNWebsiteOfficiall.IProcedure
         string getSettingBytype { get; }
         string getTypeConfig { get; }
         string getFields { get;}
+        string Field_getToShowField { get; }
         string DeleteUploadFile { get;}
     }
 }

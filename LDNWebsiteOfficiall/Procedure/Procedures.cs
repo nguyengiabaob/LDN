@@ -15,5 +15,6 @@ namespace LDNWebsiteOfficiall.Procedure
         public string getFields => "Fields_GetFields";
 
         public string DeleteUploadFile => "DeleteUploadFile";
+        public string Field_getToShowField => "Field_getToShowField";
     }
 }

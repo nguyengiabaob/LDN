@@ -192,7 +192,7 @@ const  InsertUpdateActivityFields= (props:props) => {
   return (
     <Modal
       visible={props.visible}
-      title={props.dataUpdate ? "Chỉnh Sửa Tin tức" : "Thêm tin tức"}
+      title={props.dataUpdate ? "Chỉnh Sửa lĩnh vực" : "Thêm lĩnh vực"}
       onOk={() => form.submit()}
       onCancel={() => {
         props.onvisible(false);
@@ -385,7 +385,7 @@ const  InsertUpdateActivityFields= (props:props) => {
           <Row>
             <Col xs={24} sm={24} lg={24} xxl={24} md={24} xl={24}>
               <Form.Item
-         
+                valuePropName="checked"
                 name={"isShow"}
                 label={"Hiển thị"}
               

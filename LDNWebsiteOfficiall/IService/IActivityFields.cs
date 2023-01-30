@@ -8,5 +8,6 @@ namespace LDNWebsiteOfficiall.IService
     public interface IActivityFields
     {
         Task<IEnumerable<dynamic>> getActivityFields();
+        Task<IEnumerable<dynamic>> ListActivityFieldsShow();
     }
 }

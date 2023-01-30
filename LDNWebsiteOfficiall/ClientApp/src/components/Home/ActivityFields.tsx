@@ -1,19 +1,25 @@
 import { Card, Carousel, Typography } from "antd";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getfieldsShow } from "../../Service/ActivityFields";
 import '../../Style/CustomStyle.scss';
 const ActivityFields = ()=>{
+const navigate = useNavigate();
 const {Title}= Typography;
-const [ListActivityFields, setListActivityFields] = useState();
-const getActivityFields= ()=>{
-     
+const [ListActivityFields, setListActivityFields] = useState([]);
+const getActivityFields= async()=>{
+    let result =await getfieldsShow() ;
+    if (result && result?.data) {
+        setListActivityFields(result.data);
+        console.log('asdsadasdsa',result.data);
+        
+    }
 }
-    // useEffect(() => {
-    //   first
+    useEffect(() => {
+        getActivityFields();
     
-    //   return () => {
-    //     second
-    //   }
-    // }, [third])
+      
+    }, [])
     
     return (
         <Carousel
@@ -21,8 +27,24 @@ const getActivityFields= ()=>{
             className="custom-carousel-home"
         >
             <div className="custom-carouselfield">
-
-                <Card className="custom-itemfields" style={{height: '350px', position:'relative'}}>
+            {
+                ListActivityFields && ListActivityFields.length > 0  && ListActivityFields.map((item:any)=>{
+                    return (
+                        <Card onClick={()=>{
+                            navigate(`/activityFields/${item?.id}`)
+                        }} className="custom-itemfields" style={{height: '350px', position:'relative'}}>
+              
+                        <div className="custom-fieldImage" style={{backgroundImage: `url(${item?.img})`}}>
+                                
+                        </div>
+                        <div className="custom-backgroundlayer">
+                            <Title className="custom-font-title">{item.name}</Title>
+                        </div>
+                        </Card> 
+                    )
+                })
+            }
+                {/* <Card className="custom-itemfields" style={{height: '350px', position:'relative'}}>
               
                 <div className="custom-fieldImage" style={{backgroundImage: 'url(https://deltagroup.vn/wp-content/uploads/2020/07/ee1-1.jpg)'}}>
                         
@@ -30,9 +52,9 @@ const getActivityFields= ()=>{
                 <div className="custom-backgroundlayer">
                     <Title className="custom-font-title">Tổng Thầu</Title>
                 </div>
-                </Card> 
+                </Card>  */}
 
-
+{/* 
                 <Card className="custom-itemfields" style={{height: '350px', position:'relative'}}>
               
                 <div className="custom-fieldImage" style={{backgroundImage: 'url(https://deltagroup.vn/wp-content/uploads/2020/07/ee1-1.jpg)'}}>
@@ -62,10 +84,10 @@ const getActivityFields= ()=>{
               <div className="custom-backgroundlayer">
                   <Title className="custom-font-title">Vật liệu xây dựng</Title>
               </div>
-              </Card> 
+              </Card>  */}
                      
             </div>
-            <div className="custom-carouselfield">
+            {/* <div className="custom-carouselfield">
                 <Card className="custom-itemfields">
                     <Title>Tổng Thầu</Title>
                 </Card> 
@@ -79,7 +101,7 @@ const getActivityFields= ()=>{
                     <Title>Tổng Thầu</Title>
                 </Card> 
                      
-            </div>
+            </div> */}
         </Carousel>
     )
 }

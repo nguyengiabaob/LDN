@@ -36,6 +36,12 @@ namespace LDNWebsiteOfficiall.Controllers
         {
             return await _activityFields.getActivityFields();
         }
+
+        [HttpGet("FieldsListShow")]
+        public async Task<IEnumerable<dynamic>> ListActivityFieldsShow()
+        {
+            return await _activityFields.ListActivityFieldsShow();
+        }
         // GET: api/ActivityFields/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ActivityFields>> GetActivityFields(int id)

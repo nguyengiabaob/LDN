@@ -45,5 +45,27 @@ namespace LDNWebsiteOfficiall.Service
             return result;
         }
 
+        public async Task<IEnumerable<dynamic>> ListActivityFieldsShow()
+        {
+            var param = new DynamicParameters();
+            var result = await _dapper.GetMutipleByStoreProcedureAsync<dynamic>(_Procedure.Field_getToShowField, param);
+          
+            if(result.Any())
+            {
+                foreach (var item in result)
+                {
+                    var arrayPath = item.img.Split("\\");
+                    if (arrayPath.Length > 0)
+                    {
+                        item.img = "/" + arrayPath[arrayPath.Length - 2] + "/" + arrayPath[arrayPath.Length - 1];
+                    }
+
+                }
+            }
+            return result;
+            
+            
+            
+        }
     }
 }
